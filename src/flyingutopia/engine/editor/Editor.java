@@ -85,6 +85,14 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		save.setActionCommand("save");
 		save.addActionListener(this);
 		file.add(save);
+		
+		JMenu edit = new JMenu("Edit");
+		menu.add(edit);
+		JMenuItem paste = new JMenuItem("Special Paste");
+		paste.setActionCommand("paste");
+		paste.addActionListener(this);
+		edit.add(paste);
+		
 		JMenu view = new JMenu("View");
 		menu.add(view);
 		JMenuItem zoom = new JMenuItem("Zoom");
@@ -150,34 +158,77 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 			}
 		}else if(arg0.getActionCommand().equals("new")) {
 			int width = 0, height = 0;
+			String str1 = null;
+			String str2 = null;
 			do {
-				String str = JOptionPane.showInputDialog(null, "Enter level width", 
+				str1 = JOptionPane.showInputDialog(null, "Enter level width", 
 					"Level Width", 1);
+				if(str1 == null) {
+					break;
+				}
 				try {
-					width = Integer.parseInt(str);
+					width = Integer.parseInt(str1);
 				} catch (NumberFormatException e){}
 			} while(width == 0);
 			do {
-				String str = JOptionPane.showInputDialog(null, "Enter level height", 
+				str2 = JOptionPane.showInputDialog(null, "Enter level height", 
 					"Level height", 1);
+				if(str2 == null) {
+					break;
+				}
 				try {
-					height = Integer.parseInt(str);
+					height = Integer.parseInt(str2);
 				} catch (NumberFormatException e){}
 			} while(height == 0);
-			level = new Level(width, height);
-			attr.setLevel(level);
-			editor.reload(level);
-			editorScroll.revalidate();
+			if(str1 != null && str2 != null) {
+				level = new Level(width, height);
+				attr.setLevel(level);
+				editor.reload(level);
+				editorScroll.revalidate();
+			}
 		}else if(arg0.getActionCommand().equals("zoom")) {
 			int zoom = 0;
+			String str = null;
 			do {
-				String str = JOptionPane.showInputDialog(null, "Enter zoom (int)", 
+				str = JOptionPane.showInputDialog(null, "Enter zoom (int)", 
 					"Set Zoom", 1);
 				try {
+					if(str == null) {
+						break;
+					}
 					zoom = Integer.parseInt(str);
 				} catch (NumberFormatException e){}
 			} while(zoom == 0);
-			editor.setZoom(zoom);
+			if(str != null) {
+				editor.setZoom(zoom);
+			}
+		}else if(arg0.getActionCommand().equals("paste")) {
+			int width = 0, height = 0;
+			String str1 = null;
+			String str2 = null;
+			do {
+				str1 = JOptionPane.showInputDialog(null, "Enter paste width", 
+					"Paste Width", 1);
+				if(str1 == null) {
+					break;
+				}
+				try {
+					width = Integer.parseInt(str1);
+				} catch (NumberFormatException e){}
+			} while(width == 0);
+			do {
+				str2 = JOptionPane.showInputDialog(null, "Enter paste height", 
+					"Paste height", 1);
+				if(str2 == null) {
+					break;
+				}
+				try {
+					height = Integer.parseInt(str2);
+				} catch (NumberFormatException e){}
+			} while(height == 0);
+			if(str1 != null && str2 != null) {
+				editor.paste(width, height);
+			}
 		}
 	}
 	

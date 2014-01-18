@@ -83,12 +83,15 @@ public class ResourcePanel extends JPanel implements ActionListener{
 					"Resource location", 1);
 			String str = JOptionPane.showInputDialog(null, "Enter name", 
 						"Resource name", 1);
-			Resource r = new Resource(str, file);
 			
-			if(r.loadImage()) {
-				res.addResource(r);
-				setup();
-				res.save();
+			if(str != null && file != null) {
+				Resource r = new Resource(str, file);
+			
+				if(r.loadImage()) {
+					res.addResource(r);
+					setup();
+					res.save();
+				}
 			}
 		}
 

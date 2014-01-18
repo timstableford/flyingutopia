@@ -98,6 +98,21 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		}
 	}
 	
+	public void paste(int width, int height) {
+		Tile tile = level.getTile(copyX, copyY);
+		if(tile != null) {
+			for(int x=0; x<width; x++) {
+				for(int y=0; y<height; y++) {
+					Tile copy = tile.getCopy();
+					copy.setX(x + copyX);
+					copy.setY(y + copyY);
+					level.setTile(x + copyX, y + copyY, tile.getCopy());
+				}
+			}
+		}
+		this.select(selectedX, selectedY);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		int x = arg0.getX()/(TILE_SIZE * zoom);
@@ -144,7 +159,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_DELETE) {
+		if(arg0.getKeyCode() == KeyEvent.VK_DELETE || arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			level.setTile(selectedX, selectedY, null);
 			this.repaint();
 		}else if((arg0.getKeyCode() == KeyEvent.VK_C) 
