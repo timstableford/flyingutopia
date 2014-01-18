@@ -57,6 +57,10 @@ public class Resources {
 		resources.add(r);
 	}
 	
+	public List<Resource> getResources() {
+		return resources;
+	}
+	
 	public Resource getResource(String name) {
 		return resMap.get(name);
 	}

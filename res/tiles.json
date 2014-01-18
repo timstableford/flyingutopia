@@ -2,7 +2,7 @@
 	"tiles": [
 		{
 			"name": "house_floor",
-			"filename": "house_floor.gif",
+			"filename": "tile2.gif",
 			"frames": []
 		}
 	]
