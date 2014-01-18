@@ -104,15 +104,15 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 			for(int x=0; x<width; x++) {
 				for(int y=0; y<height; y++) {
 					Tile copy = tile.getCopy();
-					copy.setX(x + copyX);
-					copy.setY(y + copyY);
-					level.setTile(x + copyX, y + copyY, tile.getCopy());
+					copy.setX(x + selectedX);
+					copy.setY(y + selectedX);
+					level.setTile(x + selectedX, y + selectedX, tile.getCopy());
 				}
 			}
 		} else {
 			for(int x=0; x<width; x++) {
 				for(int y=0; y<height; y++) {
-					level.setTile(x + copyX, y + copyY, null);
+					level.setTile(x + selectedX, y + selectedX, null);
 				}
 			}
 		}
