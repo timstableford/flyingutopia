@@ -9,6 +9,31 @@
 			"name": "bookshelf",
 			"filename": "bookshelf.gif",
 			"frames": []
+		},
+		{
+			"name": "bed",
+			"filename": "bed.gif",
+			"frames": []
+		},
+		{
+			"name": "outside_wall",
+			"filename": "outside_wall_tile.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_tile1",
+			"filename": "wall_tile1.gif",
+			"frames": []
+		},
+		{
+			"name": "baby",
+			"filename": "baby.gif",
+			"frames": []
+		},
+		{
+			"name": "baby2",
+			"filename": "baby2.gif",
+			"frames": []
 		}
 	]
 }

@@ -33,6 +33,16 @@ public class Tile {
 		y = Integer.parseInt(node.getNumberValue("y"));
 	}
 	
+	public Tile getCopy() {
+		Tile t = new Tile(x, y);
+		t.resource = resource;
+		t.background = background;
+		t.solid = solid;
+		t.attribute = attribute;
+		t.action = action;
+		return t;
+	}
+	
 	public Resource getBackground() {
 		return background;
 	}

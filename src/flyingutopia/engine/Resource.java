@@ -54,10 +54,14 @@ public class Resource {
 	public List<String> getNames() {
 		return names;
 	}
-	public void loadImage() {
+	public boolean loadImage() {
 		ClassLoader cldr = this.getClass().getClassLoader();
 	    java.net.URL imageURL = cldr.getResource("tiles/"+filename);
+	    if(imageURL == null) {
+	    	return false;
+	    }
 	    image = new ImageIcon(imageURL);
+	    return true;
 	}
 	public String getName() {
 		return name;

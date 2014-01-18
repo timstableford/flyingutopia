@@ -22,6 +22,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	private int zoom = 1;
 	private Level level;
 	private int selectedX, selectedY;
+	private int copyX, copyY;
 	private SelectionChangeListener onSelectionChange;
 	public EditorPane(ResourcePanel resPanel, Level level) {
 		this.resPanel = resPanel;
@@ -31,6 +32,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		this.setFocusable(true);
 		this.setBorder(new LineBorder(Color.black, 2));
 		this.selectedX = this.selectedY = 0;
+		this.copyX = this.copyY = 0;
 		this.onSelectionChange = null;
 		
 		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE*zoom, level.getHeight()*TILE_SIZE*zoom));
@@ -145,6 +147,20 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		if(arg0.getKeyCode() == KeyEvent.VK_DELETE) {
 			level.setTile(selectedX, selectedY, null);
 			this.repaint();
+		}else if((arg0.getKeyCode() == KeyEvent.VK_C) 
+				&& ((arg0.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			this.copyX = selectedX;
+			this.copyY = selectedY;
+		}else if((arg0.getKeyCode() == KeyEvent.VK_V)
+				&& ((arg0.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+			Tile t = level.getTile(copyX, copyY);
+			if(t != null) {
+				Tile nt = t.getCopy();
+				nt.setX(selectedX);
+				nt.setY(selectedY);
+				level.setTile(selectedX, selectedY, nt);
+				select(selectedX, selectedY);
+			}
 		}
 	}
 	

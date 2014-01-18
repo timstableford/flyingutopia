@@ -49,6 +49,10 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 		this.add(attribute);
 	}
 	
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+	
 	public void onSelectionChange(int x, int y) {
 		if(currentTile != null) {
 			currentTile.setSolid(solid.isSelected());

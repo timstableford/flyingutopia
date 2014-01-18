@@ -3,11 +3,15 @@ package flyingutopia.engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import argo.format.JsonFormatter;
+import argo.format.PrettyJsonFormatter;
 import argo.jdom.JdomParser;
 import argo.jdom.JsonArrayNodeBuilder;
 import argo.jdom.JsonNode;
@@ -17,6 +21,7 @@ import argo.saj.InvalidSyntaxException;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class Resources {
+	private static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
 	private static final JdomParser JDOM_PARSER = new JdomParser();
 	private ArrayList<Resource> resources;
 	private HashMap<String, Resource> resMap;
@@ -41,6 +46,20 @@ public class Resources {
 		for(JsonNode node: nodes) {
 			resources.add(new Resource(node));
 		}
+	}
+	
+	public boolean save() {
+		String json = JSON_FORMATTER.format(getJson());
+		try {
+			FileOutputStream f = new FileOutputStream("res/tiles.json");
+			PrintWriter writer = new PrintWriter(f);
+			writer.write(json);
+			writer.flush();
+			writer.close();
+		} catch (FileNotFoundException e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public JsonRootNode getJson() {

@@ -53,11 +53,11 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		
 		//Resource frame
 		JFrame resFrame = new JFrame();
-		resFrame.setSize(38*4, 600);
+		resFrame.setSize(42*4, 600);
 		resFrame.setTitle("Resource Viewer");
 		resFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		JScrollPane pane = new JScrollPane(resPanel);
-		pane.setMinimumSize(new Dimension(38*4, 10));
+		pane.setMinimumSize(new Dimension(42*4, 10));
 		resFrame.add(pane, BorderLayout.CENTER);
 		resFrame.setVisible(true);
 		resFrame.addComponentListener(this);
@@ -140,6 +140,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 					s.close();
 					JsonNode node = JDOM_PARSER.parse(json);
 					level = new Level(res, node);
+					attr.setLevel(level);
 					editor.reload(level);
 					editorScroll.revalidate();
 				} catch (FileNotFoundException | InvalidSyntaxException e) {
@@ -164,6 +165,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 				} catch (NumberFormatException e){}
 			} while(height == 0);
 			level = new Level(width, height);
+			attr.setLevel(level);
 			editor.reload(level);
 			editorScroll.revalidate();
 		}else if(arg0.getActionCommand().equals("zoom")) {
