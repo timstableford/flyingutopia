@@ -19,6 +19,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	private static final int TILE_SIZE = 32;
 	private static final long serialVersionUID = 6079786755121339840L;
 	private ResourcePanel resPanel;
+	private int zoom = 1;
 	private Level level;
 	private int selectedX, selectedY;
 	private SelectionChangeListener onSelectionChange;
@@ -32,7 +33,18 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		this.selectedX = this.selectedY = 0;
 		this.onSelectionChange = null;
 		
-		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE, level.getHeight()*TILE_SIZE));
+		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE*zoom, level.getHeight()*TILE_SIZE*zoom));
+	}
+	
+	public void setZoom(int zoom) {
+		this.zoom = zoom;
+		this.repaint();
+	}
+	
+	public void reload(Level level) {
+		this.level = level;
+		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE*zoom, level.getHeight()*TILE_SIZE*zoom));
+		select(0,0);
 	}
 	
 	public void setSelectionChangeListener(SelectionChangeListener l) {
@@ -46,31 +58,33 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         
-        for(int x=0; x<this.getWidth()/TILE_SIZE && x<level.getWidth(); x++) {
-        	for(int y=0; y<this.getHeight()/TILE_SIZE && y<level.getHeight(); y++) {
+        for(int x=0; x<this.getWidth()/(TILE_SIZE * zoom) && x<level.getWidth(); x++) {
+        	for(int y=0; y<this.getHeight()/(TILE_SIZE * zoom) && y<level.getHeight(); y++) {
         		Tile t = level.getTile(x, y);
         		if(t != null) {
         			if(t.getBackground() != null) {
-        				g.drawImage(t.getBackground().getImage().getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+        				g.drawImage(t.getBackground().getImage().getImage(),
+        						x*TILE_SIZE*zoom, y*TILE_SIZE*zoom, TILE_SIZE*zoom, TILE_SIZE*zoom, null);
         			}
         			if(t.getResource() != null) {
-        				g.drawImage(t.getResource().getImage().getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+        				g.drawImage(t.getResource().getImage().getImage(),
+        						x*TILE_SIZE*zoom, y*TILE_SIZE*zoom, TILE_SIZE*zoom, TILE_SIZE*zoom, null);
         			}
         		}
         	}
         }
         
         g.setColor(Color.black);
-        for(int x=0; x<this.getWidth()/TILE_SIZE && x<level.getWidth(); x++) {
-        	g.drawLine(x*TILE_SIZE, 0, x*TILE_SIZE, level.getHeight()*TILE_SIZE);
+        for(int x=0; x<this.getWidth()/(TILE_SIZE * zoom) && x<level.getWidth(); x++) {
+        	g.drawLine(x*TILE_SIZE*zoom, 0, x*TILE_SIZE*zoom, level.getHeight()*TILE_SIZE*zoom);
         }
         
-        for(int y=0; y<this.getHeight()/TILE_SIZE && y<level.getHeight(); y++) {
-        	g.drawLine(0, y*TILE_SIZE, level.getWidth()*TILE_SIZE, y*TILE_SIZE);
+        for(int y=0; y<this.getHeight()/(TILE_SIZE * zoom) && y<level.getHeight(); y++) {
+        	g.drawLine(0, y*TILE_SIZE*zoom, level.getWidth()*TILE_SIZE*zoom, y*TILE_SIZE*zoom);
         }
         
         g.setColor(Color.green);
-        g.drawRect(selectedX*TILE_SIZE, selectedY*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        g.drawRect(selectedX*TILE_SIZE*zoom, selectedY*TILE_SIZE*zoom, TILE_SIZE*zoom, TILE_SIZE*zoom);
     }
 	
 	public void select(int x, int y) {
@@ -84,8 +98,8 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		int x = arg0.getX()/TILE_SIZE;
-		int y = arg0.getY()/TILE_SIZE;
+		int x = arg0.getX()/(TILE_SIZE * zoom);
+		int y = arg0.getY()/(TILE_SIZE * zoom);
 		if(arg0.getButton() == MouseEvent.BUTTON1) {
 			Resource r = resPanel.getSelectedResource();
 			if(r != null) {

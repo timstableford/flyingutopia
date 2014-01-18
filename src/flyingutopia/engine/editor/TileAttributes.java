@@ -47,8 +47,6 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 		attribute = new JTextField(20);
 		attribute.setEnabled(false);
 		this.add(attribute);
-		
-		
 	}
 	
 	public void onSelectionChange(int x, int y) {

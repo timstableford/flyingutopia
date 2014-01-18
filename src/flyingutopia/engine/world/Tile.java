@@ -1,6 +1,10 @@
 package flyingutopia.engine.world;
 
+import argo.jdom.JsonNode;
+import argo.jdom.JsonObjectNodeBuilder;
 import flyingutopia.engine.Resource;
+import flyingutopia.engine.Resources;
+import static argo.jdom.JsonNodeBuilders.*;
 
 public class Tile {
 	private Resource resource;
@@ -17,8 +21,18 @@ public class Tile {
 		this.action = "";
 		this.x = x;
 		this.y = y;
-		
 	}
+	
+	public Tile(Resources res, JsonNode node) {
+		resource = res.getResource(node.getStringValue("foreground"));
+		background = res.getResource(node.getStringValue("background"));
+		solid = Boolean.parseBoolean(node.getStringValue("solid"));
+		attribute = node.getStringValue("attribute");
+		action = node.getStringValue("action");
+		x = Integer.parseInt(node.getNumberValue("x"));
+		y = Integer.parseInt(node.getNumberValue("y"));
+	}
+	
 	public Resource getBackground() {
 		return background;
 	}
@@ -31,6 +45,27 @@ public class Tile {
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
+
+	public JsonObjectNodeBuilder getJson() {
+		String resourceName = "";
+		String backgroundName = "";
+		if(resource != null) {
+			resourceName = resource.getName();
+		}
+		if(background != null) {
+			backgroundName = background.getName();
+		}
+		JsonObjectNodeBuilder builder = anObjectBuilder();
+		builder.withField("foreground", aStringBuilder(resourceName))
+			.withField("background", aStringBuilder(backgroundName))
+			.withField("solid", aStringBuilder(Boolean.toString(solid)))
+			.withField("attribute", aStringBuilder(attribute))
+			.withField("action", aStringBuilder(action))
+			.withField("x", aNumberBuilder(Integer.toString(x)))
+			.withField("y", aNumberBuilder(Integer.toString(y)));
+		return builder;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -59,5 +94,5 @@ public class Tile {
 		this.action = action;
 		this.attribute = attribute;
 	}
-	
+
 }
