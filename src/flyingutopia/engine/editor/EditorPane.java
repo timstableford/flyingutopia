@@ -109,6 +109,12 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 					level.setTile(x + copyX, y + copyY, tile.getCopy());
 				}
 			}
+		} else {
+			for(int x=0; x<width; x++) {
+				for(int y=0; y<height; y++) {
+					level.setTile(x + copyX, y + copyY, null);
+				}
+			}
 		}
 		this.select(selectedX, selectedY);
 	}
@@ -174,6 +180,9 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 				nt.setX(selectedX);
 				nt.setY(selectedY);
 				level.setTile(selectedX, selectedY, nt);
+				select(selectedX, selectedY);
+			} else {
+				level.setTile(selectedX, selectedY, null);
 				select(selectedX, selectedY);
 			}
 		}
