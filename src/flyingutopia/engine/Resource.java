@@ -2,6 +2,7 @@ package flyingutopia.engine;
 
 import static argo.jdom.JsonNodeBuilders.anObjectBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,6 +18,8 @@ public class Resource {
 	private String name;
 	private String filename;
 	private HashMap<String, Integer> frames;
+	private ImageIcon image;
+	private List<String> names;
 	public Resource(JsonNode node) {
 		frames = new HashMap<String, Integer>();
 		name = node.getStringValue("name");
@@ -29,6 +32,12 @@ public class Resource {
 				frames.put(s, id);
 			}
 		}
+		
+		names = new ArrayList<String>();
+		names.add(name);
+		for(Entry<String, Integer> value: frames.entrySet()) {
+			names.add(name+"_"+value.getKey());
+		}
 		System.out.println(name);
 		System.out.println(filename);
 	}
@@ -40,10 +49,16 @@ public class Resource {
 	public Resource(String name, String filename) {
 		this(name, filename, new HashMap<String, Integer>());
 	}
+	public ImageIcon getImage() {
+		return image;
+	}
+	public List<String> getNames() {
+		return names;
+	}
 	public void loadImage() {
 		ClassLoader cldr = this.getClass().getClassLoader();
-	    java.net.URL imageURL   = cldr.getResource("res/tiles/"+filename);
-	    ImageIcon imageIcon = new ImageIcon(imageURL);
+	    java.net.URL imageURL = cldr.getResource("res/tiles/"+filename);
+	    image = new ImageIcon(imageURL);
 	}
 	public JsonObjectNodeBuilder getJson() {
 		JsonArrayNodeBuilder arr = anArrayBuilder();

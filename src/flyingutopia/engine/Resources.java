@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,8 +19,17 @@ import static argo.jdom.JsonNodeBuilders.*;
 public class Resources {
 	private static final JdomParser JDOM_PARSER = new JdomParser();
 	private ArrayList<Resource> resources;
-	public Resources() {
+	private HashMap<String, Resource> resMap;
+	public Resources() throws InvalidSyntaxException, FileNotFoundException {
 		resources = new ArrayList<Resource>();
+		resMap = new HashMap<String, Resource>();
+		this.parseJson();
+		this.loadImages();
+		for(Resource r: resources) {
+			for(String s: r.getNames()) {
+				resMap.put(s, r);
+			}
+		}
 	}
 	
 	public void parseJson() throws FileNotFoundException, InvalidSyntaxException {
@@ -45,6 +55,10 @@ public class Resources {
 	
 	public void addResource(Resource r) {
 		resources.add(r);
+	}
+	
+	public Resource getResource(String name) {
+		return resMap.get(name);
 	}
 	
 	public void loadImages() {

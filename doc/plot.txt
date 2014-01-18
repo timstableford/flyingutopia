@@ -26,5 +26,8 @@ Scene 2:
 		Wardrobe
 		Draws
 Scene 3:
+	Walking through house to outside
+
+Scene 4:
 	
 	

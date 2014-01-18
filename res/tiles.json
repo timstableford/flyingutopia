@@ -1,8 +1,8 @@
 {
 	"tiles": [
 		{
-			"name": "grass",
-			"filename": "grass.gif",
+			"name": "house_floor",
+			"filename": "house_floor.gif",
 			"frames": []
 		}
 	]
