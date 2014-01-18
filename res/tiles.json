@@ -4,6 +4,11 @@
 			"name": "house_floor",
 			"filename": "tile2.gif",
 			"frames": []
+		},
+		{
+			"name": "bookshelf",
+			"filename": "bookshelf.gif",
+			"frames": []
 		}
 	]
 }

@@ -39,7 +39,6 @@ public class Resource {
 			names.add(name+"_"+value.getKey());
 		}
 		System.out.println(name);
-		System.out.println(filename);
 	}
 	public Resource(String name, String filename, HashMap<String, Integer> frames) {
 		this.name = name;

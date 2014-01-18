@@ -21,6 +21,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	private ResourcePanel resPanel;
 	private Level level;
 	private int selectedX, selectedY;
+	private SelectionChangeListener onSelectionChange;
 	public EditorPane(ResourcePanel resPanel, Level level) {
 		this.resPanel = resPanel;
 		this.level = level;
@@ -29,9 +30,15 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		this.setFocusable(true);
 		this.setBorder(new LineBorder(Color.black, 2));
 		this.selectedX = this.selectedY = 0;
+		this.onSelectionChange = null;
 		
 		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE, level.getHeight()*TILE_SIZE));
 	}
+	
+	public void setSelectionChangeListener(SelectionChangeListener l) {
+		this.onSelectionChange = l;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);       
@@ -46,7 +53,9 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         			if(t.getBackground() != null) {
         				g.drawImage(t.getBackground().getImage().getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
         			}
-        			g.drawImage(t.getResource().getImage().getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+        			if(t.getResource() != null) {
+        				g.drawImage(t.getResource().getImage().getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+        			}
         		}
         	}
         }
@@ -63,6 +72,16 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         g.setColor(Color.green);
         g.drawRect(selectedX*TILE_SIZE, selectedY*TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
+	
+	public void select(int x, int y) {
+		selectedX = x;
+		selectedY = y;
+		this.repaint();
+		if(this.onSelectionChange != null) {
+			this.onSelectionChange.onSelectionChange(x, y);
+		}
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		int x = arg0.getX()/TILE_SIZE;
@@ -78,11 +97,11 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 					t = level.getTile(x, y);
 				}
 				t.setResource(r);
+				this.repaint();
 			} else {
-				selectedX = x;
-				selectedY = y;
+				select(x, y);
 			}
-			this.repaint();
+			
 		}else if(arg0.getButton() == MouseEvent.BUTTON3) {
 			Resource r = resPanel.getSelectedResource();
 			if(r != null) {
@@ -94,15 +113,15 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 					t = level.getTile(x, y);
 				}
 				t.setBackground(r);
+				this.repaint();
 			} else {
-				selectedX = x;
-				selectedY = y;
+				select(x, y);
 			}
-			this.repaint();
 		}else if(arg0.getButton() == MouseEvent.BUTTON2) {
-			selectedX = x;
-			selectedY = y;
-			this.repaint();
+			select(x, y);
+		}
+		if(selectedX == x && selectedY == y) {
+			select(x, y);
 		}
 		
 	}

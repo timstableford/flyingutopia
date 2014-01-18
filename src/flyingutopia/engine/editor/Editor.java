@@ -2,8 +2,6 @@ package flyingutopia.engine.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ComponentEvent;
@@ -12,8 +10,6 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Resources;
@@ -24,11 +20,13 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	private ResourcePanel resPanel;
 	private Resources res;
 	private EditorPane editor;
+	private TileAttributes attr;
 	public Editor(String[] args) throws FileNotFoundException, InvalidSyntaxException {
 		res = new Resources();
 		resPanel = new ResourcePanel(res);
 		Level lev = new Level(30,30);
 		editor = new EditorPane(resPanel, lev);
+		attr = new TileAttributes(lev, editor);
 		this.setSize(640, 480);
 		this.setTitle("Map Editor");
 		
@@ -36,12 +34,19 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		JFrame resFrame = new JFrame();
 		resFrame.setSize(38*4, 600);
 		resFrame.setTitle("Resource Viewer");
+		resFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		JScrollPane pane = new JScrollPane(resPanel);
 		pane.setMinimumSize(new Dimension(38*4, 10));
 		resFrame.add(pane, BorderLayout.CENTER);
 		resFrame.setVisible(true);
 		resFrame.addComponentListener(this);
 		//Tile attributes frame
+		JFrame attrFrame = new JFrame();
+		attrFrame.setTitle("Tile Attributes");
+		attrFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		attrFrame.add(attr, BorderLayout.CENTER);
+		attrFrame.pack();
+		attrFrame.setVisible(true);
 		
 		JScrollPane editorScroll = new JScrollPane(editor,
 			    JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
