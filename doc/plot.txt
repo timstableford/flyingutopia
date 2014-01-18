@@ -1,0 +1,30 @@
+Level 1
+In your bed, in your bedroom, in your bungalow
+
+Scene 0:
+	Enter the name of your character
+	Screen showing controls
+
+Scene 1:
+	Mother runs in
+		"They've hatched <player name>! Quick, come quick!"
+	Mother runs out of room and house
+Scene 2:
+	Player transitions from bed to standing and begins to explore room
+	to familiarise with control systems.
+	
+	Explorable options include:
+		Moving
+		Interact with bed - "Bed appears messy"
+		Computer - Shows picture of bird lifecycle
+		Toy chest - "This looks like it hasn't been opened for a while"
+		Door - Open, closable
+		
+	Other objects in room:
+		Pictures - posters of birds
+		Book case
+		Wardrobe
+		Draws
+Scene 3:
+	
+	
