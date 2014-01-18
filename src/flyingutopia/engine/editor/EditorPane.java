@@ -1,30 +1,27 @@
 package flyingutopia.engine.editor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import flyingutopia.engine.Resource;
-import flyingutopia.engine.Resources;
 import flyingutopia.engine.world.Level;
 import flyingutopia.engine.world.Tile;
 
 public class EditorPane extends JPanel implements MouseListener, KeyListener{
 	private static final int TILE_SIZE = 32;
 	private static final long serialVersionUID = 6079786755121339840L;
-	private Resources res;
 	private ResourcePanel resPanel;
 	private Level level;
 	private int selectedX, selectedY;
-	public EditorPane(Resources res, ResourcePanel resPanel, Level level) {
-		this.res = res;
+	public EditorPane(ResourcePanel resPanel, Level level) {
 		this.resPanel = resPanel;
 		this.level = level;
 		this.addMouseListener(this);
@@ -32,6 +29,8 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		this.setFocusable(true);
 		this.setBorder(new LineBorder(Color.black, 2));
 		this.selectedX = this.selectedY = 0;
+		
+		this.setPreferredSize(new Dimension(level.getWidth()*TILE_SIZE, level.getHeight()*TILE_SIZE));
 	}
 	@Override
 	public void paintComponent(Graphics g) {
@@ -40,8 +39,8 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         
-        for(int x=0; x<this.getWidth()/TILE_SIZE; x++) {
-        	for(int y=0; y<this.getHeight()/TILE_SIZE; y++) {
+        for(int x=0; x<this.getWidth()/TILE_SIZE && x<level.getWidth(); x++) {
+        	for(int y=0; y<this.getHeight()/TILE_SIZE && y<level.getHeight(); y++) {
         		Tile t = level.getTile(x, y);
         		if(t != null) {
         			if(t.getBackground() != null) {
@@ -53,12 +52,12 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         }
         
         g.setColor(Color.black);
-        for(int x=0; x<this.getWidth()/TILE_SIZE; x++) {
-        	g.drawLine(x*TILE_SIZE, 0, x*TILE_SIZE, this.getHeight());
+        for(int x=0; x<this.getWidth()/TILE_SIZE && x<level.getWidth(); x++) {
+        	g.drawLine(x*TILE_SIZE, 0, x*TILE_SIZE, level.getHeight()*TILE_SIZE);
         }
         
-        for(int y=0; y<this.getHeight()/TILE_SIZE; y++) {
-        	g.drawLine(0, y*TILE_SIZE, this.getWidth(), y*TILE_SIZE);
+        for(int y=0; y<this.getHeight()/TILE_SIZE && y<level.getHeight(); y++) {
+        	g.drawLine(0, y*TILE_SIZE, level.getWidth()*TILE_SIZE, y*TILE_SIZE);
         }
         
         g.setColor(Color.green);

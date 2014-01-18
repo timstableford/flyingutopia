@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFrame;
@@ -15,7 +19,7 @@ import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Resources;
 import flyingutopia.engine.world.Level;
 
-public class Editor extends JFrame {
+public class Editor extends JFrame implements ComponentListener, AdjustmentListener{
 	private static final long serialVersionUID = 3036191526888577204L;
 	private ResourcePanel resPanel;
 	private Resources res;
@@ -24,7 +28,7 @@ public class Editor extends JFrame {
 		res = new Resources();
 		resPanel = new ResourcePanel(res);
 		Level lev = new Level(30,30);
-		editor = new EditorPane(res, resPanel, lev);
+		editor = new EditorPane(resPanel, lev);
 		this.setSize(640, 480);
 		this.setTitle("Map Editor");
 		
@@ -36,10 +40,15 @@ public class Editor extends JFrame {
 		pane.setMinimumSize(new Dimension(38*4, 10));
 		resFrame.add(pane, BorderLayout.CENTER);
 		resFrame.setVisible(true);
-		
+		resFrame.addComponentListener(this);
 		//Tile attributes frame
 		
-		this.add(editor, BorderLayout.CENTER);
+		JScrollPane editorScroll = new JScrollPane(editor,
+			    JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		editorScroll.getVerticalScrollBar().addAdjustmentListener(this);
+		editorScroll.getHorizontalScrollBar().addAdjustmentListener(this);
+		this.add(editorScroll, BorderLayout.CENTER);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -50,5 +59,22 @@ public class Editor extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void componentResized(ComponentEvent e) {
+		editor.repaint();
+	}
+	
+	@Override
+	public void adjustmentValueChanged(AdjustmentEvent arg0) {
+		editor.repaint();
+	}
+	
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+	@Override
+	public void componentShown(ComponentEvent e) {}
 
 }

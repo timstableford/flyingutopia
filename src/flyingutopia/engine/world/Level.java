@@ -24,7 +24,10 @@ public class Level {
 	}
 	
 	public Tile getTile(int x, int y) {
-		return tiles[x][y];
+		if(x>=0 && x<this.width && y>=0 && y<this.height) {
+			return tiles[x][y];
+		}
+		return null;
 	}
 	
 	public void setTile(int x, int y, Tile tile) {
