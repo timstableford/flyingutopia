@@ -1,0 +1,9 @@
+{
+	"tiles": [
+		{
+			"name": "grass",
+			"filename": "grass.gif",
+			"frames": []
+		}
+	]
+}
