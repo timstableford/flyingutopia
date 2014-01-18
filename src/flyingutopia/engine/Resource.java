@@ -57,8 +57,11 @@ public class Resource {
 	}
 	public void loadImage() {
 		ClassLoader cldr = this.getClass().getClassLoader();
-	    java.net.URL imageURL = cldr.getResource("res/tiles/"+filename);
+	    java.net.URL imageURL = cldr.getResource("tiles/"+filename);
 	    image = new ImageIcon(imageURL);
+	}
+	public String getName() {
+		return name;
 	}
 	public JsonObjectNodeBuilder getJson() {
 		JsonArrayNodeBuilder arr = anArrayBuilder();
