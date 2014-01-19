@@ -38,6 +38,7 @@ public class Engine extends JPanel implements KeyListener{
 
 	@Override
 	public void paintComponent(Graphics g) {
+		this.requestFocus();
 		double x = 0, y = 0;
 		if(focus != null) {
 			x = focus.getX() * zoom - this.getWidth()/2 + ImageResources.TILE_SIZE * zoom;

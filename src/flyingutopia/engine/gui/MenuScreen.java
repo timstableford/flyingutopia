@@ -22,8 +22,8 @@ public class MenuScreen extends JPanel implements KeyListener{
 	public MenuScreen() {
 		options = new ArrayList<MenuOption>();
 		this.setFocusable(true);
-		this.requestFocus();
 		this.addKeyListener(this);
+		this.requestFocus();
 		listener = null;
 	}
 	
@@ -42,6 +42,7 @@ public class MenuScreen extends JPanel implements KeyListener{
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		this.requestFocus();
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
