@@ -23,12 +23,10 @@ import flyingutopia.engine.ImageResources;
 
 public class ResourcePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 7151966261854717601L;
-	private ImageResources res;
 	private List<JToggleButton> buttons;
 	private JButton removeButton;
 	private JPanel resPanel;
-	public ResourcePanel(ImageResources r) {
-		res = r;
+	public ResourcePanel() {
 		buttons = new ArrayList<JToggleButton>();
 		resPanel = new JPanel();
 		this.setLayout(new GridBagLayout());
@@ -58,7 +56,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 	
 	private void setup() {
 		resPanel.removeAll();
-		List<ImageResource> reses = res.getResources();
+		List<ImageResource> reses = ImageResources.getInstance().getResources();
 		for(ImageResource re: reses) {
 			JToggleButton b = new JToggleButton(re.getImage());
 			b.setName(re.getName());
@@ -74,14 +72,14 @@ public class ResourcePanel extends JPanel implements ActionListener{
 	public ImageResource getSelectedResource() {
 		for(JToggleButton b: buttons) {
 			if(b.isSelected()) {
-				return res.getResource(b.getActionCommand());
+				return ImageResources.getInstance().getResource(b.getActionCommand());
 			}
 		}
 		return null;
 	}
 	
 	public void saveResources() {
-		String json = Editor.JSON_FORMATTER.format(res.getJson());
+		String json = Editor.JSON_FORMATTER.format(ImageResources.getInstance().getJson());
 		try {
 			PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.getResourceFile())));
 			writer.write(json);
@@ -116,7 +114,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 				ImageResource r = new ImageResource(str, file);
 			
 				if(r.loadImage()) {
-					res.addResource(r);
+					ImageResources.getInstance().addResource(r);
 					setup();
 					saveResources();
 				}
@@ -124,7 +122,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		} else if(arg0.getActionCommand().equals("remove")) {
 			ImageResource r = this.getSelectedResource();
 			if(r != null) {
-				res.removeResource(r);
+				ImageResources.getInstance().removeResource(r);
 				setup();
 				saveResources();
 			}

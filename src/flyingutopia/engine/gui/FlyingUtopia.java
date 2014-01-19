@@ -10,18 +10,34 @@ import javax.swing.JPanel;
 import argo.format.JsonFormatter;
 import argo.format.PrettyJsonFormatter;
 import argo.jdom.JdomParser;
+import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
+import flyingutopia.engine.Engine;
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.world.Level;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
 	private static final long serialVersionUID = -3349917878924010552L;
 	public static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
 	public static final JdomParser JDOM_PARSER = new JdomParser();
 	public static final String TILES_FILE = "tiles.json";
+	private Engine engine;
 	public FlyingUtopia() {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+		engine = new Engine();
+		ClassLoader loader = this.getClass().getClassLoader();
+		Scanner s = new Scanner(loader.getResourceAsStream("levels/test.json"));
+		String json = s.useDelimiter("\\A").next();
+		s.close();
+		try {
+			JsonNode node = JDOM_PARSER.parse(json);
+			engine.setLevel(new Level(node));
+		} catch (InvalidSyntaxException e) {
+			System.err.println("Could not load level");
+			System.exit(-1);
+		}
 	}
 	
 	public void setContent(JPanel content) {
@@ -32,7 +48,10 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	
 	@Override
 	public void onSelected(MenuOption option) {
-		System.out.println("option selected: "+option.getText());
+		if(option.getAction().equals("start")) {
+			this.setContent(engine);
+			engine.repaint();
+		}
 	}
 	
 	public static void main(String[] args) {

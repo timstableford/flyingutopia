@@ -22,7 +22,7 @@ public class MenuScreen extends JPanel implements KeyListener{
 	public MenuScreen() {
 		options = new ArrayList<MenuOption>();
 		this.setFocusable(true);
-		this.setEnabled(true);
+		this.requestFocus();
 		this.addKeyListener(this);
 		listener = null;
 	}

@@ -99,6 +99,11 @@
 			"name": "menu_panel",
 			"filename": "images/background.gif",
 			"frames": []
+		},
+		{
+			"name": "door",
+			"filename": "tiles/door.gif",
+			"frames": []
 		}
 	]
 }

@@ -13,6 +13,7 @@ import argo.saj.InvalidSyntaxException;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class ImageResources {
+	public static final int TILE_SIZE = 32;
 	private static ImageResources instance;
 	private ArrayList<ImageResource> resources;
 	private HashMap<String, ImageResource> resMap;
