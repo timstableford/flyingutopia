@@ -2,7 +2,7 @@
 	"tiles": [
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_right",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -11,7 +11,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_right",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -20,7 +20,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_right",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -29,7 +29,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_right",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -38,7 +38,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_corner_right",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -47,7 +47,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -64,7 +64,7 @@
 			"y": 1
 		},
 		{
-			"foreground": "baby2",
+			"foreground": "",
 			"background": "house_floor",
 			"solid": "false",
 			"attribute": "",
@@ -83,7 +83,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -92,7 +92,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -128,7 +128,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -137,7 +137,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -173,7 +173,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -182,7 +182,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -218,7 +218,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -227,7 +227,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -263,7 +263,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -272,7 +272,7 @@
 		},
 		{
 			"foreground": "bookshelf",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -308,7 +308,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -317,7 +317,7 @@
 		},
 		{
 			"foreground": "",
-			"background": "wall_tile1",
+			"background": "wall_top",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -343,8 +343,8 @@
 			"y": 2
 		},
 		{
-			"foreground": "",
-			"background": "wall_tile1",
+			"foreground": "door_panel_vert",
+			"background": "house_floor",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
@@ -352,13 +352,283 @@
 			"y": 3
 		},
 		{
-			"foreground": "",
-			"background": "wall_tile1",
+			"foreground": "wall_right",
+			"background": "wall_bottom",
 			"solid": "false",
 			"attribute": "",
 			"action": "",
 			"x": 7,
 			"y": 4
+		},
+		{
+			"foreground": "wall_right",
+			"background": "",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 5
+		},
+		{
+			"foreground": "",
+			"background": "wall_corner_right",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 6
+		},
+		{
+			"foreground": "",
+			"background": "wall_top",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 5
+		},
+		{
+			"foreground": "",
+			"background": "wall_bottom",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 8,
+			"y": 6
+		},
+		{
+			"foreground": "",
+			"background": "wall_top",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 5
+		},
+		{
+			"foreground": "",
+			"background": "wall_bottom",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 9,
+			"y": 6
+		},
+		{
+			"foreground": "",
+			"background": "wall_top",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 5
+		},
+		{
+			"foreground": "",
+			"background": "wall_bottom",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 10,
+			"y": 6
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 5
+		},
+		{
+			"foreground": "",
+			"background": "wall_corner_left",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 11,
+			"y": 6
 		}
 	],
 	"width": 30,
