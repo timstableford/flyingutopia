@@ -2,13 +2,13 @@ package flyingutopia.engine.world;
 
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
-import flyingutopia.engine.Resource;
-import flyingutopia.engine.Resources;
+import flyingutopia.engine.ImageResource;
+import flyingutopia.engine.ImageResources;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class Tile {
-	private Resource resource;
-	private Resource background;
+	private ImageResource resource;
+	private ImageResource background;
 	private int x,y;
 	private boolean solid;
 	private String action;
@@ -23,7 +23,7 @@ public class Tile {
 		this.y = y;
 	}
 	
-	public Tile(Resources res, JsonNode node) {
+	public Tile(ImageResources res, JsonNode node) {
 		resource = res.getResource(node.getStringValue("foreground"));
 		background = res.getResource(node.getStringValue("background"));
 		solid = Boolean.parseBoolean(node.getStringValue("solid"));
@@ -43,16 +43,16 @@ public class Tile {
 		return t;
 	}
 	
-	public Resource getBackground() {
+	public ImageResource getBackground() {
 		return background;
 	}
-	public void setBackground(Resource bg) {
+	public void setBackground(ImageResource bg) {
 		this.background = bg;
 	}
-	public Resource getResource() {
+	public ImageResource getResource() {
 		return resource;
 	}
-	public void setResource(Resource resource) {
+	public void setResource(ImageResource resource) {
 		this.resource = resource;
 	}
 

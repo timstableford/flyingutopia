@@ -29,7 +29,7 @@ import argo.format.PrettyJsonFormatter;
 import argo.jdom.JdomParser;
 import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
-import flyingutopia.engine.Resources;
+import flyingutopia.engine.ImageResources;
 import flyingutopia.engine.world.Level;
 
 public class Editor extends JFrame implements ComponentListener, AdjustmentListener, ActionListener{
@@ -38,7 +38,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	public static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
 	public static final JdomParser JDOM_PARSER = new JdomParser();
 	private ResourcePanel resPanel;
-	private Resources res;
+	private ImageResources res;
 	private EditorPane editor;
 	private TileAttributes attr;
 	private Level level;
@@ -47,7 +47,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		if(args.length>0) {
 			resourceFile = args[0];
 		}
-		res = new Resources();
+		res = new ImageResources();
 		//Load resources file
 	    Scanner scan = new Scanner(new FileInputStream(new File(resourceFile)));
 	    String str = scan.useDelimiter("\\A").next();
