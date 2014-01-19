@@ -34,6 +34,16 @@
 			"name": "baby2",
 			"filename": "baby2.gif",
 			"frames": []
+		},
+		{
+			"name": "chair1",
+			"filename": "chair.gif",
+			"frames": []
+		},
+		{
+			"name": "table",
+			"filename": "table.gif",
+			"frames": []
 		}
 	]
 }
