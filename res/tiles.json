@@ -2,72 +2,72 @@
 	"tiles": [
 		{
 			"name": "house_floor",
-			"filename": "tile2.gif",
+			"filename": "tiles/tile2.gif",
 			"frames": []
 		},
 		{
 			"name": "bookshelf",
-			"filename": "bookshelf.gif",
+			"filename": "tiles/bookshelf.gif",
 			"frames": []
 		},
 		{
 			"name": "bed",
-			"filename": "bed.gif",
+			"filename": "tiles/bed.gif",
 			"frames": []
 		},
 		{
 			"name": "outside_wall",
-			"filename": "outside_wall_tile.gif",
+			"filename": "tiles/outside_wall_tile.gif",
 			"frames": []
 		},
 		{
 			"name": "wall_tile1",
-			"filename": "wall_tile1.gif",
+			"filename": "tiles/wall_tile1.gif",
 			"frames": []
 		},
 		{
 			"name": "baby",
-			"filename": "baby.gif",
+			"filename": "tiles/baby.gif",
 			"frames": []
 		},
 		{
 			"name": "baby2",
-			"filename": "baby2.gif",
+			"filename": "tiles/baby2.gif",
 			"frames": []
 		},
 		{
 			"name": "chair1",
-			"filename": "chair.gif",
+			"filename": "tiles/chair.gif",
 			"frames": []
 		},
 		{
 			"name": "table",
-			"filename": "table.gif",
+			"filename": "tiles/table.gif",
 			"frames": []
 		},
 		{
 			"name": "table_right",
-			"filename": "table_right.gif",
+			"filename": "tiles/table_right.gif",
 			"frames": []
 		},
 		{
 			"name": "table_left",
-			"filename": "table_left.gif",
+			"filename": "tiles/table_left.gif",
 			"frames": []
 		},
 		{
 			"name": "table_surface",
-			"filename": "table_surface.gif",
+			"filename": "tiles/table_surface.gif",
 			"frames": []
 		},
 		{
 			"name": "table_top_left",
-			"filename": "table_top_left.gif",
+			"filename": "tiles/table_top_left.gif",
 			"frames": []
 		},
 		{
 			"name": "table_top_right",
-			"filename": "table_top_right.gif",
+			"filename": "tiles/table_top_right.gif",
 			"frames": []
 		}
 	]

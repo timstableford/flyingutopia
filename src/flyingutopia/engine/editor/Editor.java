@@ -34,8 +34,9 @@ import flyingutopia.engine.world.Level;
 
 public class Editor extends JFrame implements ComponentListener, AdjustmentListener, ActionListener{
 	private static final long serialVersionUID = 3036191526888577204L;
-	private static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
-	private static final JdomParser JDOM_PARSER = new JdomParser();
+	public static final String resourceFile = "res/tiles.json";
+	public static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
+	public static final JdomParser JDOM_PARSER = new JdomParser();
 	private ResourcePanel resPanel;
 	private Resources res;
 	private EditorPane editor;
@@ -44,6 +45,12 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	private JScrollPane editorScroll;
 	public Editor(String[] args) throws FileNotFoundException, InvalidSyntaxException {
 		res = new Resources();
+		//Load resources file
+	    Scanner scan = new Scanner(new FileInputStream(new File(resourceFile)));
+	    String str = scan.useDelimiter("\\A").next();
+	    scan.close();
+	    res.load(JDOM_PARSER.parse(str));
+		
 		resPanel = new ResourcePanel(res);
 		level = new Level(30,30);
 		editor = new EditorPane(resPanel, level);

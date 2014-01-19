@@ -2,6 +2,7 @@ package flyingutopia.engine;
 
 import static argo.jdom.JsonNodeBuilders.anObjectBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +57,29 @@ public class Resource {
 	}
 	public boolean loadImage() {
 		ClassLoader cldr = this.getClass().getClassLoader();
-	    java.net.URL imageURL = cldr.getResource("tiles/"+filename);
+	    java.net.URL imageURL = cldr.getResource(filename);
 	    if(imageURL == null) {
-	    	return false;
+	    	String newFilename = filename;
+	    	//Try and load it as a file
+	    	if(!(new File(filename).exists())) {
+	    		File f = new File("."); // current directory
+	    	    File[] files = f.listFiles();
+	    	    for (File file : files) {
+	    	        if (file.isDirectory()) {
+	    	        	File child = new File(file.getPath()+System.getProperty("file.separator")+filename);
+	    	            if(child.exists()) {
+	    	            	newFilename = child.getPath();
+	    	            }
+	    	        }
+	    	    }
+	    	    if(newFilename == filename) {
+	    	    	return false;
+	    	    }
+	    	}
+	    	image = new ImageIcon(newFilename);
+	    } else {
+	    	image = new ImageIcon(imageURL);
 	    }
-	    image = new ImageIcon(imageURL);
 	    return true;
 	}
 	public String getName() {

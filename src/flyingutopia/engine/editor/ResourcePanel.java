@@ -6,6 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +94,16 @@ public class ResourcePanel extends JPanel implements ActionListener{
 				if(r.loadImage()) {
 					res.addResource(r);
 					setup();
-					res.save();
+					String json = Editor.JSON_FORMATTER.format(res.getJson());
+					try {
+						PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.resourceFile)));
+						writer.write(json);
+						writer.flush();
+						writer.close();
+					} catch (FileNotFoundException e) {
+						System.err.println("Could not save file");
+					}
+					
 				}
 			}
 		}
