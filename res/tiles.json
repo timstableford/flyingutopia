@@ -36,11 +36,6 @@
 			"frames": []
 		},
 		{
-			"name": "chair1",
-			"filename": "tiles/chair.gif",
-			"frames": []
-		},
-		{
 			"name": "table",
 			"filename": "tiles/table.gif",
 			"frames": []
