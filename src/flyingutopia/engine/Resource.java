@@ -45,6 +45,8 @@ public class Resource {
 		this.name = name;
 		this.filename = filename;
 		this.frames = frames;
+		this.names = new ArrayList<String>();
+		names.add(name);
 	}
 	public Resource(String name, String filename) {
 		this(name, filename, new HashMap<String, Integer>());

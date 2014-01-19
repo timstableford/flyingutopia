@@ -74,6 +74,11 @@
 			"name": "table_bottom_center",
 			"filename": "tiles/table_bottom_middle.gif",
 			"frames": []
+		},
+		{
+			"name": "table_top_middle",
+			"filename": "tiles/table_top_middle.gif",
+			"frames": []
 		}
 	]
 }

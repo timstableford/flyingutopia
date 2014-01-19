@@ -63,11 +63,11 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		
 		//Resource frame
 		JFrame resFrame = new JFrame();
-		resFrame.setSize(42*4, 600);
+		resFrame.setSize(50*4, 600);
 		resFrame.setTitle("Resource Viewer");
 		resFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		JScrollPane pane = new JScrollPane(resPanel);
-		pane.setMinimumSize(new Dimension(42*4, 10));
+		pane.setMinimumSize(new Dimension(50*4, 10));
 		resFrame.add(pane, BorderLayout.CENTER);
 		resFrame.setVisible(true);
 		resFrame.addComponentListener(this);

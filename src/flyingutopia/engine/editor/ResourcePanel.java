@@ -25,6 +25,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 7151966261854717601L;
 	private Resources res;
 	private List<JToggleButton> buttons;
+	private JButton removeButton;
 	private JPanel resPanel;
 	public ResourcePanel(Resources r) {
 		res = r;
@@ -47,6 +48,12 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		addRes.setActionCommand("add");
 		addRes.addActionListener(this);
 		this.add(addRes, c);
+		
+		c.gridy = 2;
+		removeButton = new JButton("Remove");
+		removeButton.setActionCommand("remove");
+		removeButton.addActionListener(this);
+		this.add(removeButton, c);
 	}
 	
 	private void setup() {
@@ -54,6 +61,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		List<Resource> reses = res.getResources();
 		for(Resource re: reses) {
 			JToggleButton b = new JToggleButton(re.getImage());
+			b.setName(re.getName());
 			b.setActionCommand(re.getName());
 			b.addActionListener(this);
 			buttons.add(b);
@@ -76,11 +84,14 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		if(arg0.getSource() instanceof JToggleButton) {
 			JToggleButton source = (JToggleButton)arg0.getSource();
 			if(source.isSelected()) {
+				removeButton.setText("<html>Remove<br>"+source.getName()+"</html>");
 				for(JToggleButton b: buttons) {
 					if(b != source) {
 						b.setSelected(false);
 					}
 				}
+			} else {
+				removeButton.setText("Remove");
 			}
 		} else if(arg0.getActionCommand().equals("add")) {
 			String file = JOptionPane.showInputDialog(null, "Enter filename",

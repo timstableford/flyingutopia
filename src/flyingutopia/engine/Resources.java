@@ -49,8 +49,24 @@ public class Resources {
 		return builder.build();
 	}
 	
+	public void removeResource(Resource r) {
+		if(resources.contains(r)) {
+			resources.remove(r);
+			for(String s: r.getNames()) {
+				if(resMap.containsKey(s)) {
+					resMap.remove(s);
+				}
+			}
+		}
+	}
+	
 	public void addResource(Resource r) {
-		resources.add(r);
+		if(!resMap.containsKey(r.getName())) {
+			resources.add(r);
+			for(String s: r.getNames()) {
+				resMap.put(s, r);
+			}
+		}
 	}
 	
 	public List<Resource> getResources() {
