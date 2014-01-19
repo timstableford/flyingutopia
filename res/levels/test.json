@@ -1,0 +1,366 @@
+{
+	"tiles": [
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 0,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 0,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 0,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 0,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 0,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 1,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 1,
+			"y": 1
+		},
+		{
+			"foreground": "baby2",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 1,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 1,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 1,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
+			"y": 1
+		},
+		{
+			"foreground": "table_top_left",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
+			"y": 2
+		},
+		{
+			"foreground": "table_left",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
+			"y": 1
+		},
+		{
+			"foreground": "table_top_middle",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
+			"y": 2
+		},
+		{
+			"foreground": "table_bottom_center",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 4,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 4,
+			"y": 1
+		},
+		{
+			"foreground": "table_top_right",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 4,
+			"y": 2
+		},
+		{
+			"foreground": "table_right",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 4,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 4,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 5,
+			"y": 0
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 5,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 5,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 5,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 5,
+			"y": 4
+		},
+		{
+			"foreground": "bookshelf",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 6,
+			"y": 0
+		},
+		{
+			"foreground": "bed",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 6,
+			"y": 1
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 6,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 6,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 6,
+			"y": 4
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 0
+		},
+		{
+			"foreground": "door_panel_vert",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 1
+		},
+		{
+			"foreground": "door",
+			"background": "house_floor",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 3
+		},
+		{
+			"foreground": "",
+			"background": "wall_tile1",
+			"solid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 7,
+			"y": 4
+		}
+	],
+	"width": 30,
+	"height": 30
+}

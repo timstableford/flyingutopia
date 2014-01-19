@@ -38,7 +38,6 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	public static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
 	public static final JdomParser JDOM_PARSER = new JdomParser();
 	private ResourcePanel resPanel;
-	private ImageResources res;
 	private EditorPane editor;
 	private TileAttributes attr;
 	private Level level;
@@ -47,14 +46,13 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		if(args.length>0) {
 			resourceFile = args[0];
 		}
-		res = new ImageResources();
 		//Load resources file
 	    Scanner scan = new Scanner(new FileInputStream(new File(resourceFile)));
 	    String str = scan.useDelimiter("\\A").next();
 	    scan.close();
-	    res.load(JDOM_PARSER.parse(str));
+	    ImageResources.getInstance().load(JDOM_PARSER.parse(str));
 		
-		resPanel = new ResourcePanel(res);
+		resPanel = new ResourcePanel();
 		level = new Level(30,30);
 		editor = new EditorPane(resPanel, level);
 		attr = new TileAttributes(level, editor);
@@ -162,7 +160,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 					String json = s.useDelimiter("\\A").next();
 					s.close();
 					JsonNode node = JDOM_PARSER.parse(json);
-					level = new Level(res, node);
+					level = new Level(node);
 					attr.setLevel(level);
 					editor.reload(level);
 					editorScroll.revalidate();

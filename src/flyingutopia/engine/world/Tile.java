@@ -23,9 +23,9 @@ public class Tile {
 		this.y = y;
 	}
 	
-	public Tile(ImageResources res, JsonNode node) {
-		resource = res.getResource(node.getStringValue("foreground"));
-		background = res.getResource(node.getStringValue("background"));
+	public Tile(JsonNode node) {
+		resource = ImageResources.getInstance().getResource(node.getStringValue("foreground"));
+		background = ImageResources.getInstance().getResource(node.getStringValue("background"));
 		solid = Boolean.parseBoolean(node.getStringValue("solid"));
 		attribute = node.getStringValue("attribute");
 		action = node.getStringValue("action");
