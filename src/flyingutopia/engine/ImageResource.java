@@ -15,13 +15,13 @@ import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Resource {
+public class ImageResource {
 	private String name;
 	private String filename;
 	private HashMap<String, Integer> frames;
 	private ImageIcon image;
 	private List<String> names;
-	public Resource(JsonNode node) {
+	public ImageResource(JsonNode node) {
 		frames = new HashMap<String, Integer>();
 		name = node.getStringValue("name");
 		filename = node.getStringValue("filename");
@@ -41,14 +41,14 @@ public class Resource {
 		}
 		System.out.println(name);
 	}
-	public Resource(String name, String filename, HashMap<String, Integer> frames) {
+	public ImageResource(String name, String filename, HashMap<String, Integer> frames) {
 		this.name = name;
 		this.filename = filename;
 		this.frames = frames;
 		this.names = new ArrayList<String>();
 		names.add(name);
 	}
-	public Resource(String name, String filename) {
+	public ImageResource(String name, String filename) {
 		this(name, filename, new HashMap<String, Integer>());
 	}
 	public ImageIcon getImage() {

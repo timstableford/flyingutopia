@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import flyingutopia.engine.Resource;
+import flyingutopia.engine.ImageResource;
 import flyingutopia.engine.world.Level;
 import flyingutopia.engine.world.Tile;
 
@@ -124,7 +124,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 		int x = arg0.getX()/(TILE_SIZE * zoom);
 		int y = arg0.getY()/(TILE_SIZE * zoom);
 		if(arg0.getButton() == MouseEvent.BUTTON1) {
-			Resource r = resPanel.getSelectedResource();
+			ImageResource r = resPanel.getSelectedResource();
 			if(r != null) {
 				Tile t;
 				if(level.getTile(x, y) == null) {
@@ -140,7 +140,7 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
 			}
 			
 		}else if(arg0.getButton() == MouseEvent.BUTTON3) {
-			Resource r = resPanel.getSelectedResource();
+			ImageResource r = resPanel.getSelectedResource();
 			if(r != null) {
 				Tile t;
 				if(level.getTile(x, y) == null) {

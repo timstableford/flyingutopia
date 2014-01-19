@@ -18,16 +18,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import flyingutopia.engine.Resource;
-import flyingutopia.engine.Resources;
+import flyingutopia.engine.ImageResource;
+import flyingutopia.engine.ImageResources;
 
 public class ResourcePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 7151966261854717601L;
-	private Resources res;
+	private ImageResources res;
 	private List<JToggleButton> buttons;
 	private JButton removeButton;
 	private JPanel resPanel;
-	public ResourcePanel(Resources r) {
+	public ResourcePanel(ImageResources r) {
 		res = r;
 		buttons = new ArrayList<JToggleButton>();
 		resPanel = new JPanel();
@@ -58,8 +58,8 @@ public class ResourcePanel extends JPanel implements ActionListener{
 	
 	private void setup() {
 		resPanel.removeAll();
-		List<Resource> reses = res.getResources();
-		for(Resource re: reses) {
+		List<ImageResource> reses = res.getResources();
+		for(ImageResource re: reses) {
 			JToggleButton b = new JToggleButton(re.getImage());
 			b.setName(re.getName());
 			b.setActionCommand(re.getName());
@@ -71,7 +71,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		this.revalidate();
 	}
 	
-	public Resource getSelectedResource() {
+	public ImageResource getSelectedResource() {
 		for(JToggleButton b: buttons) {
 			if(b.isSelected()) {
 				return res.getResource(b.getActionCommand());
@@ -113,7 +113,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 						"Resource name", 1);
 			
 			if(str != null && file != null) {
-				Resource r = new Resource(str, file);
+				ImageResource r = new ImageResource(str, file);
 			
 				if(r.loadImage()) {
 					res.addResource(r);
@@ -122,7 +122,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 				}
 			}
 		} else if(arg0.getActionCommand().equals("remove")) {
-			Resource r = this.getSelectedResource();
+			ImageResource r = this.getSelectedResource();
 			if(r != null) {
 				res.removeResource(r);
 				setup();

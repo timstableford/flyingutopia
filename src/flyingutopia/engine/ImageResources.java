@@ -12,20 +12,20 @@ import argo.jdom.JsonRootNode;
 import argo.saj.InvalidSyntaxException;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Resources {
-	private ArrayList<Resource> resources;
-	private HashMap<String, Resource> resMap;
-	public Resources() throws InvalidSyntaxException, FileNotFoundException {
-		resources = new ArrayList<Resource>();
-		resMap = new HashMap<String, Resource>();
+public class ImageResources {
+	private ArrayList<ImageResource> resources;
+	private HashMap<String, ImageResource> resMap;
+	public ImageResources() throws InvalidSyntaxException, FileNotFoundException {
+		resources = new ArrayList<ImageResource>();
+		resMap = new HashMap<String, ImageResource>();
 	}
 	
 	public void load(JsonNode json) throws FileNotFoundException, InvalidSyntaxException {
-		resources = new ArrayList<Resource>();
-		resMap = new HashMap<String, Resource>();
+		resources = new ArrayList<ImageResource>();
+		resMap = new HashMap<String, ImageResource>();
 		this.parseJson(json);
 		this.loadImages();
-		for(Resource r: resources) {
+		for(ImageResource r: resources) {
 			for(String s: r.getNames()) {
 				resMap.put(s, r);
 			}
@@ -35,13 +35,13 @@ public class Resources {
 	private void parseJson(JsonNode json) throws FileNotFoundException, InvalidSyntaxException {
 		List<JsonNode> nodes = json.getArrayNode("tiles");
 		for(JsonNode node: nodes) {
-			resources.add(new Resource(node));
+			resources.add(new ImageResource(node));
 		}
 	}
 	
 	public JsonRootNode getJson() {
 		JsonArrayNodeBuilder arr = anArrayBuilder();
-		for(Resource r: resources) {
+		for(ImageResource r: resources) {
 			arr.withElement(r.getJson());
 		}
 		JsonObjectNodeBuilder builder = anObjectBuilder()
@@ -49,7 +49,7 @@ public class Resources {
 		return builder.build();
 	}
 	
-	public void removeResource(Resource r) {
+	public void removeResource(ImageResource r) {
 		if(resources.contains(r)) {
 			resources.remove(r);
 			for(String s: r.getNames()) {
@@ -60,7 +60,7 @@ public class Resources {
 		}
 	}
 	
-	public void addResource(Resource r) {
+	public void addResource(ImageResource r) {
 		if(!resMap.containsKey(r.getName())) {
 			resources.add(r);
 			for(String s: r.getNames()) {
@@ -69,16 +69,16 @@ public class Resources {
 		}
 	}
 	
-	public List<Resource> getResources() {
+	public List<ImageResource> getResources() {
 		return resources;
 	}
 	
-	public Resource getResource(String name) {
+	public ImageResource getResource(String name) {
 		return resMap.get(name);
 	}
 	
 	public void loadImages() {
-		for(Resource r: resources) {
+		for(ImageResource r: resources) {
 			r.loadImage();
 		}
 	}

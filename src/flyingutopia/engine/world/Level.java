@@ -1,6 +1,6 @@
 package flyingutopia.engine.world;
 
-import flyingutopia.engine.Resources;
+import flyingutopia.engine.ImageResources;
 import argo.jdom.JsonArrayNodeBuilder;
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
@@ -16,7 +16,7 @@ public class Level {
 		tiles = new Tile[width][height];
 	}
 	
-	public Level(Resources res, JsonNode rootNode) {
+	public Level(ImageResources res, JsonNode rootNode) {
 		width = Integer.parseInt(rootNode.getNumberValue("width"));
 		height = Integer.parseInt(rootNode.getNumberValue("height"));
 		tiles = new Tile[width][height];
