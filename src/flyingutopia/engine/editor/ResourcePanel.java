@@ -79,6 +79,19 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		}
 		return null;
 	}
+	
+	public void saveResources() {
+		String json = Editor.JSON_FORMATTER.format(res.getJson());
+		try {
+			PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.getResourceFile())));
+			writer.write(json);
+			writer.flush();
+			writer.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("Could not save file");
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() instanceof JToggleButton) {
@@ -105,17 +118,15 @@ public class ResourcePanel extends JPanel implements ActionListener{
 				if(r.loadImage()) {
 					res.addResource(r);
 					setup();
-					String json = Editor.JSON_FORMATTER.format(res.getJson());
-					try {
-						PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.getResourceFile())));
-						writer.write(json);
-						writer.flush();
-						writer.close();
-					} catch (FileNotFoundException e) {
-						System.err.println("Could not save file");
-					}
-					
+					saveResources();
 				}
+			}
+		} else if(arg0.getActionCommand().equals("remove")) {
+			Resource r = this.getSelectedResource();
+			if(r != null) {
+				res.removeResource(r);
+				setup();
+				saveResources();
 			}
 		}
 
