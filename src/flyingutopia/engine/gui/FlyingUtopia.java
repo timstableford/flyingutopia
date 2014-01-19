@@ -48,13 +48,9 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 			System.exit(-1);
 		}
 		FlyingUtopia fu = new FlyingUtopia();
-		MenuScreen ms = new MenuScreen();
-		MenuOption start = new MenuOption("Start", "start");
-		MenuOption load = new MenuOption("Load", "load");
-		ms.addOption(start);
-		ms.addOption(load);
-		ms.setListener(fu);
-		fu.setContent(ms);
+		Menu m = new Menu();
+		m.setListener(fu);
+		fu.setContent(m);
 	}
 
 }

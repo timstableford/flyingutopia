@@ -1,7 +1,15 @@
 package flyingutopia.engine.gui;
 
 public class MenuOption {
-	private String action;
+	private String action, attribute, text;
+	public MenuOption(String text, String action, String attribute) {
+		this.attribute = attribute;
+		this.action = action;
+		this.text = text;
+	}
+	public MenuOption(String text, String action) {
+		this(text, action, null);
+	}
 	public String getAction() {
 		return action;
 	}
@@ -14,10 +22,10 @@ public class MenuOption {
 	public void setText(String text) {
 		this.text = text;
 	}
-	private String text;
-	public MenuOption(String text, String action) {
-		this.action = action;
-		this.text = text;
+	public String getAttribute() {
+		return attribute;
 	}
-	
+	public void setAttribute(String attribute) {
+		this.attribute = attribute;
+	}
 }

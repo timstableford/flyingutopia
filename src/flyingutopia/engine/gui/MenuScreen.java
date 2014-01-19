@@ -18,13 +18,18 @@ public class MenuScreen extends JPanel implements KeyListener{
 	private static final long serialVersionUID = -463446655847128691L;
 	protected ArrayList<MenuOption> options;
 	protected int selected = 0;
-	private SelectionListener listener;
+	protected SelectionListener listener;
 	public MenuScreen() {
 		options = new ArrayList<MenuOption>();
 		this.setFocusable(true);
 		this.setEnabled(true);
 		this.addKeyListener(this);
 		listener = null;
+	}
+	
+	public void reset() {
+		options = new ArrayList<MenuOption>();
+		select(0);
 	}
 	
 	public void addOption(MenuOption option) {
@@ -72,6 +77,13 @@ public class MenuScreen extends JPanel implements KeyListener{
 		repaint();
 	}
 	
+	public void onEnter() {
+		MenuOption o = options.get(selected);
+		if(listener != null && o != null) {
+			listener.onSelected(options.get(selected));
+		}
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
@@ -82,9 +94,7 @@ public class MenuScreen extends JPanel implements KeyListener{
 			select(selected-1);
 			break;
 		case KeyEvent.VK_ENTER:
-			if(listener != null) {
-				listener.onSelected(options.get(selected));
-			}
+			onEnter();
 			break;
 		}
 	}
