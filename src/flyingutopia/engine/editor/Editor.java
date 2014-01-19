@@ -169,7 +169,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 				try {
 					width = Integer.parseInt(str1);
 				} catch (NumberFormatException e){}
-			} while(width == 0);
+			} while(width <= 0);
 			do {
 				str2 = JOptionPane.showInputDialog(null, "Enter level height", 
 					"Level height", 1);
@@ -179,7 +179,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 				try {
 					height = Integer.parseInt(str2);
 				} catch (NumberFormatException e){}
-			} while(height == 0);
+			} while(height <= 0);
 			if(str1 != null && str2 != null) {
 				level = new Level(width, height);
 				attr.setLevel(level);
@@ -198,7 +198,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 					}
 					zoom = Integer.parseInt(str);
 				} catch (NumberFormatException e){}
-			} while(zoom == 0);
+			} while(zoom <= 0);
 			if(str != null) {
 				editor.setZoom(zoom);
 			}
@@ -215,7 +215,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 				try {
 					width = Integer.parseInt(str1);
 				} catch (NumberFormatException e){}
-			} while(width == 0);
+			} while(width <= 0);
 			do {
 				str2 = JOptionPane.showInputDialog(null, "Enter paste height", 
 					"Paste height", 1);
@@ -225,7 +225,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 				try {
 					height = Integer.parseInt(str2);
 				} catch (NumberFormatException e){}
-			} while(height == 0);
+			} while(height <= 0);
 			if(str1 != null && str2 != null) {
 				editor.paste(width, height);
 			}
