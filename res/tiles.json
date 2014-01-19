@@ -104,6 +104,36 @@
 			"name": "door",
 			"filename": "tiles/door.gif",
 			"frames": []
+		},
+		{
+			"name": "wall_bottom",
+			"filename": "tiles/wall_bottom.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_corner_left",
+			"filename": "tiles/wall_corner_left.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_corner_right",
+			"filename": "tiles/wall_corner_right.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_left",
+			"filename": "tiles/wall_left.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_right",
+			"filename": "tiles/wall_RIGHT.gif",
+			"frames": []
+		},
+		{
+			"name": "wall_top",
+			"filename": "tiles/wall_top.gif",
+			"frames": []
 		}
 	]
 }
