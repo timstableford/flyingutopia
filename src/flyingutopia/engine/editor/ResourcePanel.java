@@ -96,7 +96,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 					setup();
 					String json = Editor.JSON_FORMATTER.format(res.getJson());
 					try {
-						PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.resourceFile)));
+						PrintWriter writer = new PrintWriter(new FileOutputStream(new File(Editor.getResourceFile())));
 						writer.write(json);
 						writer.flush();
 						writer.close();
