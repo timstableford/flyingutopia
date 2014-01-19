@@ -44,6 +44,31 @@
 			"name": "table",
 			"filename": "table.gif",
 			"frames": []
+		},
+		{
+			"name": "table_right",
+			"filename": "table_right.gif",
+			"frames": []
+		},
+		{
+			"name": "table_left",
+			"filename": "table_left.gif",
+			"frames": []
+		},
+		{
+			"name": "table_surface",
+			"filename": "table_surface.gif",
+			"frames": []
+		},
+		{
+			"name": "table_top_left",
+			"filename": "table_top_left.gif",
+			"frames": []
+		},
+		{
+			"name": "table_top_right",
+			"filename": "table_top_right.gif",
+			"frames": []
 		}
 	]
 }
