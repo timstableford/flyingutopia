@@ -89,6 +89,16 @@
 			"name": "table_side_right",
 			"filename": "tiles/table_side_right.gif",
 			"frames": []
+		},
+		{
+			"name": "menu_arrow",
+			"filename": "images/arrow.gif",
+			"frames": []
+		},
+		{
+			"name": "menu_panel",
+			"filename": "images/background.gif",
+			"frames": []
 		}
 	]
 }

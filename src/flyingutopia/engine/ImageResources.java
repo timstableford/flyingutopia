@@ -13,9 +13,18 @@ import argo.saj.InvalidSyntaxException;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class ImageResources {
+	private static ImageResources instance;
 	private ArrayList<ImageResource> resources;
 	private HashMap<String, ImageResource> resMap;
-	public ImageResources() throws InvalidSyntaxException, FileNotFoundException {
+	
+	public static ImageResources getInstance() {
+		if(instance == null) {
+			instance = new ImageResources();
+		}
+		return instance;
+	}
+	
+	public ImageResources(){
 		resources = new ArrayList<ImageResource>();
 		resMap = new HashMap<String, ImageResource>();
 	}
