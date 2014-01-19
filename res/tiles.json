@@ -74,6 +74,21 @@
 			"name": "table_top_middle",
 			"filename": "tiles/table_top_middle.gif",
 			"frames": []
+		},
+		{
+			"name": "door_panel_vert",
+			"filename": "tiles/door_panel.gif",
+			"frames": []
+		},
+		{
+			"name": "table_side_left",
+			"filename": "tiles/table_side_left.gif",
+			"frames": []
+		},
+		{
+			"name": "table_side_right",
+			"filename": "tiles/table_side_right.gif",
+			"frames": []
 		}
 	]
 }
