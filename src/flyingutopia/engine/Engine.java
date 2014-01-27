@@ -14,6 +14,7 @@ import flyingutopia.engine.world.Level;
 
 public class Engine extends JPanel implements KeyListener, Runnable{
 	private static final long serialVersionUID = -2525142042121440587L;
+	private int lastPressedKey;
 	private Level level;
 	private double zoom;
 	private Sprite focus;
@@ -112,24 +113,24 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			if(focus.getVelocity().getYSpeed() == 0) {
-				focus.getVelocity().setX(-focus.getSpeed());
-			}
+			focus.getVelocity().setX(-focus.getSpeed());
+			focus.getVelocity().setY(0);
+			lastPressedKey = arg0.getKeyCode();
 			break;
 		case KeyEvent.VK_RIGHT:
-			if(focus.getVelocity().getYSpeed() == 0) {
-				focus.getVelocity().setX(focus.getSpeed());
-			}
+			focus.getVelocity().setX(focus.getSpeed());
+			focus.getVelocity().setY(0);
+			lastPressedKey = arg0.getKeyCode();
 			break;
 		case KeyEvent.VK_UP:
-			if(focus.getVelocity().getXSpeed() == 0) {
-				focus.getVelocity().setY(-focus.getSpeed());
-			}
+			focus.getVelocity().setY(-focus.getSpeed());
+			focus.getVelocity().setX(0);
+			lastPressedKey = arg0.getKeyCode();
 			break;
 		case KeyEvent.VK_DOWN:
-			if(focus.getVelocity().getXSpeed() == 0) {
-				focus.getVelocity().setY(focus.getSpeed());
-			}
+			focus.getVelocity().setY(focus.getSpeed());
+			focus.getVelocity().setX(0);
+			lastPressedKey = arg0.getKeyCode();
 			break;
 		}
 	}
@@ -137,11 +138,11 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT: case KeyEvent.VK_RIGHT:
-			focus.getVelocity().setX(0);
-			break;
-		case KeyEvent.VK_UP: case KeyEvent.VK_DOWN:
-			focus.getVelocity().setY(0);
+		case KeyEvent.VK_LEFT: case KeyEvent.VK_RIGHT: case KeyEvent.VK_UP: case KeyEvent.VK_DOWN:
+			if(lastPressedKey == arg0.getKeyCode()) {
+				focus.getVelocity().setX(0);
+				focus.getVelocity().setY(0);
+			}
 			break;
 		}
 	}
