@@ -19,17 +19,21 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	private double zoom;
 	private Sprite focus;
 	private ArrayList<Timer> timers;
+	private ArrayList<WorldCollidable> collidable;
 	private long lastTick;
 	private boolean loop;
 	private BufferedImage graphics;
 
 	public Engine() {
 		timers = new ArrayList<Timer>();
+		collidable = new ArrayList<WorldCollidable>();
 		lastTick = System.currentTimeMillis();
 		this.loop = true;
 		focus = null;
 		zoom = 1.6;
-		focus = new Player(32,32);
+		Player p = new Player(32,32);
+		this.addCollidable(p);
+		focus = p;
 		graphics = null;
 		this.addTimer(focus);
 		this.setFocusable(true);
@@ -43,6 +47,14 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 
 	public void removeTimer(Timer timer) {
 		this.timers.remove(timer);
+	}
+	
+	public void addCollidable(WorldCollidable w) {
+		this.collidable.add(w);
+	}
+	
+	public void removeCollidable(WorldCollidable w) {
+		this.collidable.remove(w);
 	}
 
 	public void setLevel(Level level) {
@@ -79,7 +91,7 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 				y = (int)(focus.getY() - this.getHeight()/2);
 			}
 			g.setColor(Color.black);
-			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+			g.fillRect(0, 0, graphics.getWidth(), graphics.getHeight());
 			if(this.level != null) {
 				BufferedImage buffer = new BufferedImage(level.getWidth() * ImageResources.TILE_SIZE,
 						level.getHeight() * ImageResources.TILE_SIZE, BufferedImage.TYPE_4BYTE_ABGR);
@@ -100,7 +112,7 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 				} else {
 					g.setColor(Color.green);
 				}
-				g.fillRect(300, 300, 10, 10);
+				g.fillRect(305, 220, 10, 10);
 			}
 		}
 	}
@@ -154,6 +166,11 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	public void run() {
 		while(loop) {
 			long dt = System.currentTimeMillis() - lastTick;
+			for(WorldCollidable w: collidable) {
+				if(this.level != null) {
+					w.checkForCollisions(this.level);
+				}
+			}
 			for(Timer t: timers) {
 				t.onTimer(dt);
 			}
