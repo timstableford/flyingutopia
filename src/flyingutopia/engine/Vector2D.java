@@ -30,6 +30,12 @@ public class Vector2D {
 			return 0;
 		}
 	}
+	public double getXSpeed() {
+		return Math.abs(this.x);
+	}
+	public double getYSpeed() {
+		return Math.abs(this.y);
+	}
 	public Direction getDirection() {
 		if(this.x > 0) {
 			direction = Direction.RIGHT;

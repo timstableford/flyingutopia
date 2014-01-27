@@ -112,22 +112,22 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	public void keyPressed(KeyEvent arg0) {
 		switch(arg0.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
-			if(focus.getVelocity().getSpeed() == 0) {
+			if(focus.getVelocity().getYSpeed() == 0) {
 				focus.getVelocity().setX(-focus.getSpeed());
 			}
 			break;
 		case KeyEvent.VK_RIGHT:
-			if(focus.getVelocity().getSpeed() == 0) {
+			if(focus.getVelocity().getYSpeed() == 0) {
 				focus.getVelocity().setX(focus.getSpeed());
 			}
 			break;
 		case KeyEvent.VK_UP:
-			if(focus.getVelocity().getSpeed() == 0) {
+			if(focus.getVelocity().getXSpeed() == 0) {
 				focus.getVelocity().setY(-focus.getSpeed());
 			}
 			break;
 		case KeyEvent.VK_DOWN:
-			if(focus.getVelocity().getSpeed() == 0) {
+			if(focus.getVelocity().getXSpeed() == 0) {
 				focus.getVelocity().setY(focus.getSpeed());
 			}
 			break;
