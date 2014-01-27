@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 public class Sprite implements Timer{
-	protected double DEFAULT_SPEED = 60;
+	protected double DEFAULT_SPEED = 70;
 	protected Vector2D velocity;
 	protected double x, y;
 	protected int direction;
