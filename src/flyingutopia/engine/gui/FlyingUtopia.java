@@ -34,6 +34,7 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 		try {
 			JsonNode node = JDOM_PARSER.parse(json);
 			engine.setLevel(new Level(node));
+			engine.getLevel().generateCollisionMap();
 		} catch (InvalidSyntaxException e) {
 			System.err.println("Could not load level");
 			System.exit(-1);

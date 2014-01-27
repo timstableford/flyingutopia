@@ -90,8 +90,22 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 
 				g.drawImage(buffer, 0, 0, this.getWidth(), this.getHeight(),
 						x, y, (int)((x + this.getWidth())), (int)((y + this.getHeight())), null);
+				
+				if(this.level.isColliding(focus.getX() - focus.getWidth()/2, focus.getY()) ||
+						this.level.isColliding(focus.getX() + focus.getWidth()/2, focus.getY()) ||
+						this.level.isColliding(focus.getX(), focus.getY() + focus.getHeight()/2) ||
+						this.level.isColliding(focus.getX(), focus.getY())) {
+					g.setColor(Color.red);
+				} else {
+					g.setColor(Color.green);
+				}
+				g.fillRect(300, 300, 10, 10);
 			}
 		}
+	}
+	
+	public Level getLevel() {
+		return this.level;
 	}
 
 	@Override

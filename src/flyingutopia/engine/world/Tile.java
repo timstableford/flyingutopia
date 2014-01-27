@@ -1,5 +1,9 @@
 package flyingutopia.engine.world;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import flyingutopia.engine.ImageResource;
@@ -10,13 +14,14 @@ public class Tile {
 	private ImageResource resource;
 	private ImageResource background;
 	private int x,y;
-	private boolean solid;
+	private boolean backgroundSolid, foregroundSolid;
 	private String action;
 	private String attribute;
 	public Tile(int x, int y) {
 		this.resource = null;
 		this.background = null;
-		this.solid = false;
+		this.foregroundSolid = false;
+		this.backgroundSolid = false;
 		this.attribute = "";
 		this.action = "";
 		this.x = x;
@@ -26,7 +31,8 @@ public class Tile {
 	public Tile(JsonNode node) {
 		resource = ImageResources.getInstance().getResource(node.getStringValue("foreground"));
 		background = ImageResources.getInstance().getResource(node.getStringValue("background"));
-		solid = Boolean.parseBoolean(node.getStringValue("solid"));
+		backgroundSolid = Boolean.parseBoolean(node.getStringValue("backgroundsolid"));
+		foregroundSolid = Boolean.parseBoolean(node.getStringValue("foregroundsolid"));
 		attribute = node.getStringValue("attribute");
 		action = node.getStringValue("action");
 		x = Integer.parseInt(node.getNumberValue("x"));
@@ -37,7 +43,8 @@ public class Tile {
 		Tile t = new Tile(x, y);
 		t.resource = resource;
 		t.background = background;
-		t.solid = solid;
+		t.foregroundSolid = foregroundSolid;
+		t.backgroundSolid = backgroundSolid;
 		t.attribute = attribute;
 		t.action = action;
 		return t;
@@ -55,6 +62,40 @@ public class Tile {
 	public void setResource(ImageResource resource) {
 		this.resource = resource;
 	}
+	
+	public boolean [][] getCollisionMap(int COLLISION_RESOLUTION) {
+		boolean collisionMap[][] = new boolean[COLLISION_RESOLUTION][COLLISION_RESOLUTION];
+		if(this.isBackgroundSolid()) {
+			for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
+				for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
+					collisionMap[ax][ay] = true;
+				}
+			}
+		} else if(this.getResource() != null && this.isForegroundSolid()){
+			long[][] pixelData = new long[ImageResources.TILE_SIZE][ImageResources.TILE_SIZE];
+			ImageIcon b = this.getResource().getImage();
+			BufferedImage b_img = new BufferedImage(b.getIconWidth(), b.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+			b_img.getGraphics().drawImage(b.getImage(), 0, 0, null);
+			for(int xx=0; xx<ImageResources.TILE_SIZE; xx++) {
+				for(int yy=0; yy<ImageResources.TILE_SIZE; yy++) {
+					pixelData[xx][yy] = (b_img.getRGB(xx, yy) >> 24) & 0xFF;
+				}
+			}
+			for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
+				for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
+					long average = 0;
+					for(int bx=0; bx < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; bx++) {
+						for(int by=0; by < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; by++) {
+							average += pixelData[bx + ax * ImageResources.TILE_SIZE/COLLISION_RESOLUTION][by + ay * ImageResources.TILE_SIZE/COLLISION_RESOLUTION];
+						}
+					}
+					average = average/((ImageResources.TILE_SIZE/COLLISION_RESOLUTION)*(ImageResources.TILE_SIZE/COLLISION_RESOLUTION));
+					collisionMap[ax][ay] = (average > 10) || (average < -10);
+				}
+			}
+		}
+		return collisionMap;
+	}
 
 	public JsonObjectNodeBuilder getJson() {
 		String resourceName = "";
@@ -68,7 +109,8 @@ public class Tile {
 		JsonObjectNodeBuilder builder = anObjectBuilder();
 		builder.withField("foreground", aStringBuilder(resourceName))
 			.withField("background", aStringBuilder(backgroundName))
-			.withField("solid", aStringBuilder(Boolean.toString(solid)))
+			.withField("backgroundsolid", aStringBuilder(Boolean.toString(backgroundSolid)))
+			.withField("foregroundsolid", aStringBuilder(Boolean.toString(foregroundSolid)))
 			.withField("attribute", aStringBuilder(attribute))
 			.withField("action", aStringBuilder(action))
 			.withField("x", aNumberBuilder(Integer.toString(x)))
@@ -88,11 +130,17 @@ public class Tile {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public boolean isSolid() {
-		return solid;
+	public boolean isForegroundSolid() {
+		return foregroundSolid;
 	}
-	public void setSolid(boolean solid) {
-		this.solid = solid;
+	public void setForegroundSolid(boolean solid) {
+		this.foregroundSolid = solid;
+	}
+	public boolean isBackgroundSolid() {
+		return backgroundSolid;
+	}
+	public void setBackgroundSolid(boolean solid) {
+		this.backgroundSolid = solid;
 	}
 	public String getAttribute() {
 		return attribute;

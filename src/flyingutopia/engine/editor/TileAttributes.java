@@ -14,7 +14,7 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 	private static final long serialVersionUID = -1689832713205549219L;
 	private Level level;
 	private EditorPane editor;
-	private JCheckBox solid;
+	private JCheckBox backgroundSolid, foregroundSolid;
 	private JLabel foreground, background;
 	private JTextField action, attribute;
 	private Tile currentTile;
@@ -26,10 +26,15 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 		this.setLayout(new GridLayout(0, 2));
 		currentTile = null;
 		
-		this.add(new JLabel("Solid"));
-		solid = new JCheckBox();
-		solid.setEnabled(false);
-		this.add(solid);
+		this.add(new JLabel("Background Solid"));
+		backgroundSolid = new JCheckBox();
+		backgroundSolid.setEnabled(false);
+		this.add(backgroundSolid);
+		
+		this.add(new JLabel("Foreground Solid"));
+		foregroundSolid = new JCheckBox();
+		foregroundSolid.setEnabled(false);
+		this.add(foregroundSolid);
 		
 		this.add(new JLabel("Foreground"));
 		foreground = new JLabel();
@@ -55,13 +60,16 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 	
 	public void onSelectionChange(int x, int y) {
 		if(currentTile != null) {
-			currentTile.setSolid(solid.isSelected());
+			currentTile.setForegroundSolid(foregroundSolid.isSelected());
+			currentTile.setBackgroundSolid(backgroundSolid.isSelected());
 			currentTile.setAction(action.getText(), attribute.getText());
 		}
 		currentTile = level.getTile(x, y);
 		if(currentTile != null) {
-			solid.setSelected(currentTile.isSolid());
-			solid.setEnabled(true);
+			backgroundSolid.setSelected(currentTile.isBackgroundSolid());
+			foregroundSolid.setSelected(currentTile.isForegroundSolid());
+			foregroundSolid.setEnabled(true);
+			backgroundSolid.setEnabled(true);
 			if(currentTile.getResource() != null) {
 				foreground.setText(currentTile.getResource().getName());
 			} else {
@@ -77,8 +85,10 @@ public class TileAttributes extends JPanel implements SelectionChangeListener{
 			attribute.setText(currentTile.getAttribute());
 			attribute.setEnabled(true);
 		} else {
-			solid.setSelected(false);
-			solid.setEnabled(false);
+			backgroundSolid.setSelected(false);
+			backgroundSolid.setEnabled(false);
+			foregroundSolid.setSelected(false);
+			foregroundSolid.setEnabled(false);
 			foreground.setText("");
 			background.setText("");
 			action.setText("");

@@ -10,7 +10,9 @@ import argo.jdom.JsonObjectNodeBuilder;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class Level {
+	private static final int COLLISION_RESOLUTION = 2;
 	private Tile tiles[][];
+	private boolean collisionMap[][];
 	private int width;
 	private int height;
 	private double zoom = 1;
@@ -18,6 +20,7 @@ public class Level {
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
+		collisionMap = new boolean[width * COLLISION_RESOLUTION][height * COLLISION_RESOLUTION];
 	}
 	
 	public void render(Graphics g, int startx, int endx, int starty, int endy) {
@@ -47,6 +50,41 @@ public class Level {
 		}
 	}
 	
+	public void generateCollisionMap() {
+		for(int x=0; x<this.width * COLLISION_RESOLUTION; x++) {
+			for(int y=0; y<this.height * COLLISION_RESOLUTION; y++) {
+				collisionMap[x][y] = false;
+			}
+		}
+	
+		for(int x=0; x<this.width; x++) {
+			for(int y=0; y<this.height; y++) {
+				Tile t = tiles[x][y];
+				if(t != null) {
+					boolean tileMap[][] = t.getCollisionMap(COLLISION_RESOLUTION);
+					for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
+						for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
+							collisionMap[x * COLLISION_RESOLUTION + ax][y * COLLISION_RESOLUTION + ay] = tileMap[ax][ay];
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public boolean isColliding(double cx, double cy) {
+		if(collisionMap == null) {
+			return false;
+		}
+		int x = (int) (cx/(ImageResources.TILE_SIZE / COLLISION_RESOLUTION));
+		int y = (int) (cy/(ImageResources.TILE_SIZE / COLLISION_RESOLUTION));
+		return collisionMap[x][y];
+	}
+	
+	public boolean[][] getCollisionMap() {
+		return collisionMap;
+	}
+	
 	public void render(Graphics g) {
 		this.render(g, 0, this.width - 1, 0, this.height - 1);
 	}
@@ -55,6 +93,7 @@ public class Level {
 		width = Integer.parseInt(rootNode.getNumberValue("width"));
 		height = Integer.parseInt(rootNode.getNumberValue("height"));
 		tiles = new Tile[width][height];
+		collisionMap = new boolean[width * COLLISION_RESOLUTION][height * COLLISION_RESOLUTION];
 		for(JsonNode n: rootNode.getArrayNode("tiles")) {
 			Tile t = new Tile(n);
 			tiles[t.getX()][t.getY()] = t;
