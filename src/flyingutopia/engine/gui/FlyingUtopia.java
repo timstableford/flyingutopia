@@ -51,6 +51,7 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 		if(option.getAction().equals("start")) {
 			this.setContent(engine);
 			engine.repaint();
+			(new Thread(engine)).start();
 		}
 	}
 	

@@ -134,6 +134,26 @@
 			"name": "wall_top",
 			"filename": "tiles/wall_top.gif",
 			"frames": []
+		},
+		{
+			"name": "boy_back",
+			"filename": "tiles/boy_back.gif",
+			"frames": []
+		},
+		{
+			"name": "boy_front",
+			"filename": "tiles/boy_front.gif",
+			"frames": []
+		},
+		{
+			"name": "boy_left",
+			"filename": "tiles/boy_left.gif",
+			"frames": []
+		},
+		{
+			"name": "boy_right",
+			"filename": "tiles/boy_right.gif",
+			"frames": []
 		}
 	]
 }
