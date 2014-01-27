@@ -47,7 +47,8 @@ public class Sprite implements Timer{
 			r = resources.get(this.velocity.getDirection().toString());
 		}
 		if(r != null) {
-			g2.drawImage(r.getImage().getImage(), (int)x, (int)y, null);
+			g2.drawImage(r.getImage().getImage(), (int)x - r.getImage().getIconWidth()/2,
+					(int)y - r.getImage().getIconHeight()/2, null);
 		}
 	}
 	public double getX() {

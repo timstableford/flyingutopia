@@ -74,8 +74,8 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 			Graphics2D g = graphics.createGraphics();
 			int x = 0, y = 0;
 			if(focus != null) {
-				x = (int)(focus.getX() - this.getWidth()/2 + ImageResources.TILE_SIZE);
-				y = (int)(focus.getY() - this.getHeight()/2 + ImageResources.TILE_SIZE);
+				x = (int)(focus.getX() - this.getWidth()/2);
+				y = (int)(focus.getY() - this.getHeight()/2);
 			}
 			g.setColor(Color.black);
 			g.fillRect(0, 0, this.getWidth(), this.getHeight());
