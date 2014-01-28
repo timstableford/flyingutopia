@@ -1,5 +1,5 @@
 An action can happen on either sprite interaction or player collision
-Action parameters are seperated by a | (pipe)
+Attributes or interaction/object type are seperated by a | (pipe)
 Actions are seperated by by a ~ (wobbly line thing)
 This allows multiple possibilities in each tile.
 
