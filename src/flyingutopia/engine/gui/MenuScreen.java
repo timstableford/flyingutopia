@@ -5,9 +5,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import flyingutopia.engine.ImageResources;
@@ -46,23 +46,23 @@ public class MenuScreen extends JPanel implements KeyListener{
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		ImageIcon menuPanel = ImageResources.getInstance().getResource("menu_panel").getImage();
-		ImageIcon menuArrow = ImageResources.getInstance().getResource("menu_arrow").getImage();
+		BufferedImage menuPanel = ImageResources.getInstance().getResource("menu_panel").getImage()[0].getImage();
+		BufferedImage menuArrow = ImageResources.getInstance().getResource("menu_arrow").getImage()[0].getImage();
 		
-		g.drawImage(menuPanel.getImage(), this.getWidth()/2 - menuPanel.getIconWidth()/2,
-				this.getHeight()/2 - menuPanel.getIconHeight()/2, null);
+		g.drawImage(menuPanel, this.getWidth()/2 - menuPanel.getWidth()/2,
+				this.getHeight()/2 - menuPanel.getHeight()/2, null);
 		
 		g.setColor(Color.black);
 		g.setFont(g.getFont().deriveFont(18.0f));
 		FontMetrics metrics = g.getFontMetrics(g.getFont());
 		for(int y=0; y<options.size(); y++) {
-			int textHeight = this.getHeight()/2 - menuPanel.getIconHeight()/2 + INSET*4 + ITEM_HEIGHT*y;
+			int textHeight = this.getHeight()/2 - menuPanel.getHeight()/2 + INSET*4 + ITEM_HEIGHT*y;
 			if(y == selected) {
-				g.drawImage(menuArrow.getImage(), this.getWidth()/2 - menuPanel.getIconWidth()/2 + INSET,
-						textHeight + metrics.getHeight()/2 - menuArrow.getIconHeight(), null);
+				g.drawImage(menuArrow, this.getWidth()/2 - menuPanel.getWidth()/2 + INSET,
+						textHeight + metrics.getHeight()/2 - menuArrow.getHeight(), null);
 			}
 			g.drawString(options.get(y).getText(),
-					this.getWidth()/2 - menuPanel.getIconWidth()/2 + INSET*2 + menuArrow.getIconWidth(),
+					this.getWidth()/2 - menuPanel.getWidth()/2 + INSET*2 + menuArrow.getWidth(),
 					textHeight);
 		}
 		

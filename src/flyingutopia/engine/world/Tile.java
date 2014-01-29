@@ -3,8 +3,6 @@ package flyingutopia.engine.world;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import flyingutopia.engine.ImageResource;
@@ -23,6 +21,7 @@ public class Tile implements Interactable{
 	protected String action;
 	protected String attribute;
 	protected List<WorldAction> actions;
+	protected boolean collisionMap[][];
 	public Tile(int x, int y) {
 		this.resource = null;
 		this.background = null;
@@ -34,7 +33,7 @@ public class Tile implements Interactable{
 		this.y = y;
 		this.actions = ActionParser.parseActions(action, attribute);
 	}
-	
+
 	public Tile(JsonNode node) {
 		this(Integer.parseInt(node.getNumberValue("x")), Integer.parseInt(node.getNumberValue("y")));
 		resource = ImageResources.getInstance().getResource(node.getStringValue("foreground"));
@@ -45,7 +44,7 @@ public class Tile implements Interactable{
 		action = node.getStringValue("action");
 		this.actions = ActionParser.parseActions(action, attribute);
 	}
-	
+
 	public Tile getCopy() {
 		Tile t = new Tile(x, y);
 		t.resource = resource;
@@ -56,7 +55,7 @@ public class Tile implements Interactable{
 		t.action = action;
 		return t;
 	}
-	
+
 	public ImageResource getBackground() {
 		return background;
 	}
@@ -69,39 +68,44 @@ public class Tile implements Interactable{
 	public void setResource(ImageResource resource) {
 		this.resource = resource;
 	}
-	
+
 	public boolean [][] getCollisionMap(int COLLISION_RESOLUTION) {
-		boolean collisionMap[][] = new boolean[COLLISION_RESOLUTION][COLLISION_RESOLUTION];
-		if(this.isBackgroundSolid()) {
-			for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
-				for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
-					collisionMap[ax][ay] = true;
-				}
-			}
-		} else if(this.getResource() != null && this.isForegroundSolid()){
-			long[][] pixelData = new long[ImageResources.TILE_SIZE][ImageResources.TILE_SIZE];
-			ImageIcon b = this.getResource().getImage();
-			BufferedImage b_img = new BufferedImage(b.getIconWidth(), b.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR);
-			b_img.getGraphics().drawImage(b.getImage(), 0, 0, null);
-			for(int xx=0; xx<ImageResources.TILE_SIZE; xx++) {
-				for(int yy=0; yy<ImageResources.TILE_SIZE; yy++) {
-					pixelData[xx][yy] = (b_img.getRGB(xx, yy) >> 24) & 0xFF;
-				}
-			}
-			for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
-				for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
-					long average = 0;
-					for(int bx=0; bx < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; bx++) {
-						for(int by=0; by < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; by++) {
-							average += pixelData[bx + ax * ImageResources.TILE_SIZE/COLLISION_RESOLUTION][by + ay * ImageResources.TILE_SIZE/COLLISION_RESOLUTION];
-						}
+		if(collisionMap == null) {
+			collisionMap = new boolean[COLLISION_RESOLUTION][COLLISION_RESOLUTION];
+			if(this.isBackgroundSolid()) {
+				for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
+					for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
+						collisionMap[ax][ay] = true;
 					}
-					average = average/((ImageResources.TILE_SIZE/COLLISION_RESOLUTION)*(ImageResources.TILE_SIZE/COLLISION_RESOLUTION));
-					collisionMap[ax][ay] = (average > 10) || (average < -10);
+				}
+			} else if(this.getResource() != null && this.isForegroundSolid()){
+				long[][] pixelData = new long[ImageResources.TILE_SIZE][ImageResources.TILE_SIZE];
+				BufferedImage b = this.getResource().getImage()[this.getResource().getCurrentFrame()].getImage();
+				for(int xx=0; xx<ImageResources.TILE_SIZE; xx++) {
+					for(int yy=0; yy<ImageResources.TILE_SIZE; yy++) {
+						pixelData[xx][yy] = (b.getRGB(xx, yy) >> 24) & 0xFF;
+					}
+				}
+				for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
+					for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
+						long average = 0;
+						for(int bx=0; bx < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; bx++) {
+							for(int by=0; by < ImageResources.TILE_SIZE/COLLISION_RESOLUTION; by++) {
+								average += pixelData[bx + ax * ImageResources.TILE_SIZE/COLLISION_RESOLUTION][by + ay * ImageResources.TILE_SIZE/COLLISION_RESOLUTION];
+							}
+						}
+						average = average/((ImageResources.TILE_SIZE/COLLISION_RESOLUTION)*(ImageResources.TILE_SIZE/COLLISION_RESOLUTION));
+						collisionMap[ax][ay] = (average > 10) || (average < -10);
+					}
 				}
 			}
 		}
 		return collisionMap;
+	}
+	
+	public void updateCollisionMap() {
+		collisionMap = null;
+		this.getCollisionMap(Level.COLLISION_RESOLUTION);
 	}
 
 	public JsonObjectNodeBuilder getJson() {
@@ -115,13 +119,13 @@ public class Tile implements Interactable{
 		}
 		JsonObjectNodeBuilder builder = anObjectBuilder();
 		builder.withField("foreground", aStringBuilder(resourceName))
-			.withField("background", aStringBuilder(backgroundName))
-			.withField("backgroundsolid", aStringBuilder(Boolean.toString(backgroundSolid)))
-			.withField("foregroundsolid", aStringBuilder(Boolean.toString(foregroundSolid)))
-			.withField("attribute", aStringBuilder(attribute))
-			.withField("action", aStringBuilder(action))
-			.withField("x", aNumberBuilder(Integer.toString(x)))
-			.withField("y", aNumberBuilder(Integer.toString(y)));
+		.withField("background", aStringBuilder(backgroundName))
+		.withField("backgroundsolid", aStringBuilder(Boolean.toString(backgroundSolid)))
+		.withField("foregroundsolid", aStringBuilder(Boolean.toString(foregroundSolid)))
+		.withField("attribute", aStringBuilder(attribute))
+		.withField("action", aStringBuilder(action))
+		.withField("x", aNumberBuilder(Integer.toString(x)))
+		.withField("y", aNumberBuilder(Integer.toString(y)));
 		return builder;
 	}
 

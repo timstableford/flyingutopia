@@ -45,21 +45,21 @@ public class Sprite implements Timer{
 			this.image = r;
 		}
 		if(r != null) {
-			g2.drawImage(r.getImage().getImage(), (int)x - r.getImage().getIconWidth()/2,
-					(int)y - r.getImage().getIconHeight()/2, null);
+			g2.drawImage(r.getImage()[0].getImage(), (int)x - r.getImage()[0].getImage().getWidth()/2,
+					(int)y - r.getImage()[0].getImage().getHeight()/2, null);
 		}
 	}
 	
 	public int getWidth() {
 		if(this.image != null) {
-			return this.image.getImage().getIconWidth();
+			return this.image.getImage()[0].getImage().getWidth();
 		}
 		return 0;
 	}
 	
 	public int getHeight() {
 		if(this.image != null) {
-			return this.image.getImage().getIconHeight();
+			return this.image.getImage()[0].getImage().getHeight();
 		}
 		return 0;
 	}

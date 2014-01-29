@@ -65,11 +65,11 @@ public class EditorPane extends JPanel implements MouseListener, KeyListener{
         		Tile t = level.getTile(x, y);
         		if(t != null) {
         			if(t.getBackground() != null) {
-        				g.drawImage(t.getBackground().getImage().getImage(),
+        				g.drawImage(t.getBackground().getImage()[0].getImage(),
         						x*ImageResources.TILE_SIZE*zoom, y*ImageResources.TILE_SIZE*zoom, ImageResources.TILE_SIZE*zoom, ImageResources.TILE_SIZE*zoom, null);
         			}
         			if(t.getResource() != null) {
-        				g.drawImage(t.getResource().getImage().getImage(),
+        				g.drawImage(t.getResource().getImage()[0].getImage(),
         						x*ImageResources.TILE_SIZE*zoom, y*ImageResources.TILE_SIZE*zoom, ImageResources.TILE_SIZE*zoom, ImageResources.TILE_SIZE*zoom, null);
         			}
         		}

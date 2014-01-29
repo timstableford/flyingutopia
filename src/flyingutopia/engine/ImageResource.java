@@ -2,13 +2,26 @@ package flyingutopia.engine;
 
 import static argo.jdom.JsonNodeBuilders.anObjectBuilder;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import argo.jdom.JsonArrayNodeBuilder;
 import argo.jdom.JsonNode;
@@ -19,8 +32,10 @@ public class ImageResource {
 	private String name;
 	private String filename;
 	private HashMap<String, Integer> frames;
-	private ImageIcon image;
 	private List<String> names;
+	private ImageFrame[] imageFrames;
+	private int currentFrame;
+	private long lastUpdate;
 	public ImageResource(JsonNode node) {
 		frames = new HashMap<String, Integer>();
 		name = node.getStringValue("name");
@@ -33,6 +48,10 @@ public class ImageResource {
 				frames.put(s, id);
 			}
 		}
+		
+		lastUpdate = System.currentTimeMillis();
+		
+		currentFrame = 0;
 		
 		names = new ArrayList<String>();
 		names.add(name);
@@ -48,11 +67,40 @@ public class ImageResource {
 		this.names = new ArrayList<String>();
 		names.add(name);
 	}
+	
+	public void animate() {
+		if((System.currentTimeMillis() - lastUpdate) > imageFrames[currentFrame].getDelay()) {
+			lastUpdate = System.currentTimeMillis();
+			incrementFrame();
+		}
+	}
+	
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+	
+	public void setCurrentFrame(int frame) {
+		if(frame > imageFrames.length) {
+			frame = 0;
+		}
+		currentFrame = frame;
+	}
+	
+	public void incrementFrame() {
+		currentFrame++;
+		if(currentFrame >= imageFrames.length) {
+			currentFrame = imageFrames.length - 1;
+			if(getImage()[currentFrame].getDisposal().equals("None")) {
+				currentFrame = 0;
+			}
+		}
+	}
+	
 	public ImageResource(String name, String filename) {
 		this(name, filename, new HashMap<String, Integer>());
 	}
-	public ImageIcon getImage() {
-		return image;
+	public ImageFrame[] getImage() {
+		return imageFrames;
 	}
 	public List<String> getNames() {
 		return names;
@@ -74,14 +122,19 @@ public class ImageResource {
 			}
 			if(newFilename == filename) {
 				ClassLoader cldr = this.getClass().getClassLoader();
-				java.net.URL imageURL = cldr.getResource(filename);
-				if(imageURL == null) {
+				InputStream is = cldr.getResourceAsStream(filename);
+				try {
+					this.imageFrames = this.readGIF(is);
+				} catch (IOException e) {
 					return false;
-				} else {
-					image = new ImageIcon(imageURL);
 				}
 			} else {
-				image = new ImageIcon(newFilename);
+				try {
+					InputStream is = new FileInputStream(newFilename);
+					this.imageFrames = this.readGIF(is);
+				} catch (IOException e) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -101,5 +154,94 @@ public class ImageResource {
 				.withField("filename", aStringBuilder(filename))
 				.withField("frames", arr);
 		return builder;
+	}
+	
+	private ImageFrame[] readGIF(InputStream is) throws IOException {
+		ImageReader reader = (ImageReader) ImageIO.getImageReadersByFormatName("gif").next();
+		reader.setInput(ImageIO.createImageInputStream(is));
+	    ArrayList<ImageFrame> frames = new ArrayList<ImageFrame>(2);
+
+	    int width = -1;
+	    int height = -1;
+
+	    IIOMetadata metadata = reader.getStreamMetadata();
+	    if (metadata != null) {
+	        IIOMetadataNode globalRoot = (IIOMetadataNode) metadata.getAsTree(metadata.getNativeMetadataFormatName());
+
+	        NodeList globalScreenDescriptor = globalRoot.getElementsByTagName("LogicalScreenDescriptor");
+
+	        if (globalScreenDescriptor != null && globalScreenDescriptor.getLength() > 0) {
+	            IIOMetadataNode screenDescriptor = (IIOMetadataNode) globalScreenDescriptor.item(0);
+
+	            if (screenDescriptor != null) {
+	                width = Integer.parseInt(screenDescriptor.getAttribute("logicalScreenWidth"));
+	                height = Integer.parseInt(screenDescriptor.getAttribute("logicalScreenHeight"));
+	            }
+	        }
+	    }
+
+	    BufferedImage master = null;
+	    Graphics2D masterGraphics = null;
+
+	    for (int frameIndex = 0;; frameIndex++) {
+	        BufferedImage image;
+	        try {
+	            image = reader.read(frameIndex);
+	        } catch (IndexOutOfBoundsException io) {
+	            break;
+	        }
+
+	        if (width == -1 || height == -1) {
+	            width = image.getWidth();
+	            height = image.getHeight();
+	        }
+
+	        IIOMetadataNode root = (IIOMetadataNode) reader.getImageMetadata(frameIndex).getAsTree("javax_imageio_gif_image_1.0");
+	        IIOMetadataNode gce = (IIOMetadataNode) root.getElementsByTagName("GraphicControlExtension").item(0);
+	        int delay = Integer.valueOf(gce.getAttribute("delayTime"));
+	        String disposal = gce.getAttribute("disposalMethod");
+
+	        int x = 0;
+	        int y = 0;
+
+	        if (master == null) {
+	            master = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	            masterGraphics = master.createGraphics();
+	            masterGraphics.setBackground(new Color(0, 0, 0, 0));
+	        } else {
+	            NodeList children = root.getChildNodes();
+	            for (int nodeIndex = 0; nodeIndex < children.getLength(); nodeIndex++) {
+	                Node nodeItem = children.item(nodeIndex);
+	                if (nodeItem.getNodeName().equals("ImageDescriptor")) {
+	                    NamedNodeMap map = nodeItem.getAttributes();
+	                    x = Integer.valueOf(map.getNamedItem("imageLeftPosition").getNodeValue());
+	                    y = Integer.valueOf(map.getNamedItem("imageTopPosition").getNodeValue());
+	                }
+	            }
+	        }
+	        masterGraphics.drawImage(image, x, y, null);
+
+	        BufferedImage copy = new BufferedImage(master.getColorModel(), master.copyData(null), master.isAlphaPremultiplied(), null);
+	        frames.add(new ImageFrame(copy, delay, disposal));
+
+	        if (disposal.equals("restoreToPrevious")) {
+	            BufferedImage from = null;
+	            for (int i = frameIndex - 1; i >= 0; i--) {
+	                if (!frames.get(i).getDisposal().equals("restoreToPrevious") || frameIndex == 0) {
+	                    from = frames.get(i).getImage();
+	                    break;
+	                }
+	            }
+
+	            master = new BufferedImage(from.getColorModel(), from.copyData(null), from.isAlphaPremultiplied(), null);
+	            masterGraphics = master.createGraphics();
+	            masterGraphics.setBackground(new Color(0, 0, 0, 0));
+	        } else if (disposal.equals("restoreToBackgroundColor")) {
+	            masterGraphics.clearRect(x, y, image.getWidth(), image.getHeight());
+	        }
+	    }
+	    reader.dispose();
+
+	    return frames.toArray(new ImageFrame[frames.size()]);
 	}
 }

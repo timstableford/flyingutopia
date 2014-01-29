@@ -14,7 +14,6 @@ import static argo.jdom.JsonNodeBuilders.*;
 public class Level implements ImageObserver{
 	public static final int COLLISION_RESOLUTION = 2;
 	private Tile tiles[][];
-	private boolean collisionMap[][];
 	private int width;
 	private int height;
 	private double zoom = 1;
@@ -22,7 +21,6 @@ public class Level implements ImageObserver{
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
-		collisionMap = new boolean[width * COLLISION_RESOLUTION][height * COLLISION_RESOLUTION];
 	}
 	
 	public void render(Graphics g, int startx, int endx, int starty, int endy) {
@@ -34,14 +32,16 @@ public class Level implements ImageObserver{
 				Tile t = tiles[x][y];
 				if(t != null) {
         			if(t.getBackground() != null) {
-        				g.drawImage(t.getBackground().getImage().getImage(),
+        				t.getBackground().animate();
+        				g.drawImage(t.getBackground().getImage()[t.getBackground().getCurrentFrame()].getImage(),
         						(int)(x*ImageResources.TILE_SIZE*zoom),
         						(int)(y*ImageResources.TILE_SIZE*zoom),
         						(int)(ImageResources.TILE_SIZE*zoom),
         						(int)(ImageResources.TILE_SIZE*zoom), this);
         			}
         			if(t.getResource() != null) {
-        				g.drawImage(t.getResource().getImage().getImage(),
+        				t.getResource().animate();
+        				g.drawImage(t.getResource().getImage()[t.getResource().getCurrentFrame()].getImage(),
         						(int)(x*ImageResources.TILE_SIZE*zoom),
         						(int)(y*ImageResources.TILE_SIZE*zoom),
         						(int)(ImageResources.TILE_SIZE*zoom),
@@ -53,38 +53,31 @@ public class Level implements ImageObserver{
 	}
 	
 	public void generateCollisionMap() {
-		for(int x=0; x<this.width * COLLISION_RESOLUTION; x++) {
-			for(int y=0; y<this.height * COLLISION_RESOLUTION; y++) {
-				collisionMap[x][y] = false;
-			}
-		}
-	
 		for(int x=0; x<this.width; x++) {
 			for(int y=0; y<this.height; y++) {
 				Tile t = tiles[x][y];
 				if(t != null) {
-					boolean tileMap[][] = t.getCollisionMap(COLLISION_RESOLUTION);
-					for(int ax=0; ax<COLLISION_RESOLUTION; ax++) {
-						for(int ay=0; ay<COLLISION_RESOLUTION; ay++) {
-							collisionMap[x * COLLISION_RESOLUTION + ax][y * COLLISION_RESOLUTION + ay] = tileMap[ax][ay];
-						}
-					}
+					//generate initial collision map
+					t.getCollisionMap(COLLISION_RESOLUTION);
 				}
 			}
 		}
 	}
 	
 	public boolean isColliding(double cx, double cy) {
-		if(collisionMap == null) {
-			return false;
-		}
 		int x = (int) (cx/(ImageResources.TILE_SIZE / COLLISION_RESOLUTION));
 		int y = (int) (cy/(ImageResources.TILE_SIZE / COLLISION_RESOLUTION));
-		return collisionMap[x][y];
-	}
-	
-	public boolean[][] getCollisionMap() {
-		return collisionMap;
+		
+		Tile t = tiles[(int) (cx / ImageResources.TILE_SIZE)][(int) (cy / ImageResources.TILE_SIZE)];
+		if(t != null) {
+			boolean tileMap[][] = t.getCollisionMap(COLLISION_RESOLUTION);
+			if(tileMap != null) {
+				x = x - t.getX() * COLLISION_RESOLUTION;
+				y = y - t.getY() * COLLISION_RESOLUTION;
+				return tileMap[x][y];
+			}
+		}
+		return false;
 	}
 	
 	public void render(Graphics g) {
@@ -95,7 +88,6 @@ public class Level implements ImageObserver{
 		width = Integer.parseInt(rootNode.getNumberValue("width"));
 		height = Integer.parseInt(rootNode.getNumberValue("height"));
 		tiles = new Tile[width][height];
-		collisionMap = new boolean[width * COLLISION_RESOLUTION][height * COLLISION_RESOLUTION];
 		for(JsonNode n: rootNode.getArrayNode("tiles")) {
 			Tile t = new Tile(n);
 			tiles[t.getX()][t.getY()] = t;

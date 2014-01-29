@@ -2,13 +2,21 @@ package flyingutopia.engine.interactions;
 
 import org.mangosdk.spi.ProviderFor;
 
+import flyingutopia.engine.ImageResource;
+import flyingutopia.engine.ImageResources;
 import flyingutopia.engine.Sprite;
 import flyingutopia.engine.world.Tile;
 
 @ProviderFor(WorldAction.class)
 public class DoorAction implements WorldAction{
-	private static final String name = "door";
+	protected static final String name = "door";
+	protected ImageResource openRes;
+	protected ImageResource closedRes;
+	protected boolean isOpen;
+	protected InteractionTypes interactionType;
 	public DoorAction() {
+		isOpen = false;
+		interactionType = InteractionTypes.NONE;
 		System.out.println(name+" action instantiated");
 	}
 	@Override
@@ -25,30 +33,45 @@ public class DoorAction implements WorldAction{
 
 	@Override
 	public void parseAttributes(String[] attributes) {
-		// TODO Auto-generated method stub
-		
+		openRes = ImageResources.getInstance().getResource(attributes[2]);
+		closedRes = ImageResources.getInstance().getResource(attributes[3]);
 	}
 
 	@Override
-	public void setInteraction(String type) {
-		// TODO Auto-generated method stub
-		
+	public void setInteraction(InteractionTypes type) {
+		this.interactionType = type;	
 	}
 
 	@Override
 	public void onCollision(Tile parent, Sprite source) {
-		System.out.println(name+" collision");	
+		if(this.interactionType == InteractionTypes.COLLIDE) {
+			System.out.println(name+" collision");
+		}
 	}
 
 	@Override
 	public void onSeperate(Tile parent, Sprite source) {
-		System.out.println(name+" seperate");
-		
+		if(this.interactionType == InteractionTypes.COLLIDE) {
+			System.out.println(name+" seperate");
+		}
 	}
 
 	@Override
 	public void onInteract(Tile parent, Sprite source) {
-		System.out.println(name+" interact");
+		if(this.interactionType == InteractionTypes.INTERACT) {
+			isOpen = !isOpen;
+			parent.setForegroundSolid(!isOpen);
+			if(isOpen) {
+				parent.setResource(openRes);
+				openRes.setCurrentFrame(0);
+				parent.updateCollisionMap();
+			} else {
+				parent.setResource(closedRes);
+				closedRes.setCurrentFrame(closedRes.getImage().length - 1);
+				parent.updateCollisionMap();
+				closedRes.setCurrentFrame(0);
+			}
+		}
 	}
 
 }

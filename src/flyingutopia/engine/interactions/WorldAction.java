@@ -11,7 +11,7 @@ public interface WorldAction {
 	//Parse your attribute string
 	public void parseAttributes(String[] attributes);
 	//Either collision or interact
-	public void setInteraction(String type);
+	public void setInteraction(InteractionTypes type);
 	//On a sprite collision with this tile
 	public void onCollision(Tile parent, Sprite source);
 	//On separation after a collision

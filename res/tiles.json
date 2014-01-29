@@ -159,6 +159,11 @@
 			"name": "door_closing",
 			"filename": "tiles/door_temp.gif",
 			"frames": []
+		},
+		{
+			"name": "door_opening",
+			"filename": "tiles/door_open.gif",
+			"frames": []
 		}
 	]
 }

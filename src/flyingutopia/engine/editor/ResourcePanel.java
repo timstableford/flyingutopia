@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -58,7 +59,7 @@ public class ResourcePanel extends JPanel implements ActionListener{
 		resPanel.removeAll();
 		List<ImageResource> reses = ImageResources.getInstance().getResources();
 		for(ImageResource re: reses) {
-			JToggleButton b = new JToggleButton(re.getImage());
+			JToggleButton b = new JToggleButton(new ImageIcon(re.getImage()[0].getImage()));
 			b.setName(re.getName());
 			b.setActionCommand(re.getName());
 			b.addActionListener(this);
