@@ -10,7 +10,7 @@ import argo.jdom.JsonObjectNodeBuilder;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class Level {
-	private static final int COLLISION_RESOLUTION = 2;
+	public static final int COLLISION_RESOLUTION = 2;
 	private Tile tiles[][];
 	private boolean collisionMap[][];
 	private int width;

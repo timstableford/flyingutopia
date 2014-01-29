@@ -1,5 +1,7 @@
 package flyingutopia.engine.gui;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -14,6 +16,7 @@ import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Engine;
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.interactions.ActionParser;
 import flyingutopia.engine.world.Level;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
@@ -22,13 +25,13 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	public static final JdomParser JDOM_PARSER = new JdomParser();
 	public static final String TILES_FILE = "tiles.json";
 	private Engine engine;
-	public FlyingUtopia() {
+	public FlyingUtopia() throws FileNotFoundException {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		engine = new Engine();
-		ClassLoader loader = this.getClass().getClassLoader();
-		Scanner s = new Scanner(loader.getResourceAsStream("levels/test.json"));
+		InputStream is = new FileInputStream(new File("res/levels/test.json"));
+		Scanner s = new Scanner(is);
 		String json = s.useDelimiter("\\A").next();
 		s.close();
 		try {
@@ -56,10 +59,10 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		ActionParser.getInstance();
 		try {
-			ClassLoader cldr = FlyingUtopia.class.getClassLoader();
-		    InputStream resStream = cldr.getResourceAsStream(TILES_FILE);
+		    InputStream resStream = new FileInputStream(new File("res/"+TILES_FILE));
 		    Scanner scan = new Scanner(resStream);
 		    String str = scan.useDelimiter("\\A").next();
 		    scan.close();
