@@ -154,6 +154,11 @@
 			"name": "boy_right",
 			"filename": "tiles/boy_right.gif",
 			"frames": []
+		},
+		{
+			"name": "door_closing",
+			"filename": "tiles/door_temp.gif",
+			"frames": []
 		}
 	]
 }

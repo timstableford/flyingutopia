@@ -2,6 +2,8 @@ package flyingutopia.engine.world;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
 
 import flyingutopia.engine.ImageResources;
 import argo.jdom.JsonArrayNodeBuilder;
@@ -9,7 +11,7 @@ import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Level {
+public class Level implements ImageObserver{
 	public static final int COLLISION_RESOLUTION = 2;
 	private Tile tiles[][];
 	private boolean collisionMap[][];
@@ -36,14 +38,14 @@ public class Level {
         						(int)(x*ImageResources.TILE_SIZE*zoom),
         						(int)(y*ImageResources.TILE_SIZE*zoom),
         						(int)(ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom), null);
+        						(int)(ImageResources.TILE_SIZE*zoom), this);
         			}
         			if(t.getResource() != null) {
         				g.drawImage(t.getResource().getImage().getImage(),
         						(int)(x*ImageResources.TILE_SIZE*zoom),
         						(int)(y*ImageResources.TILE_SIZE*zoom),
         						(int)(ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom), null);
+        						(int)(ImageResources.TILE_SIZE*zoom), this);
         			}
         		}
 			}
@@ -141,5 +143,11 @@ public class Level {
 		if(x>=0 && x<this.width && y>=0 && y<this.height) {
 			tiles[x][y] = tile;
 		}
+	}
+
+	@Override
+	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
+			int arg4, int arg5) {
+		return true;
 	}
 }
