@@ -4,7 +4,7 @@ Actions are seperated by by a ~ (wobbly line thing)
 This allows multiple possibilities in each tile.
 
 action: interact|door
-attribute: open_time(float)|image_open|image_close|image_opening|image_closing
+attribute: open_time(float)|initial state (open/closed)|image_open|image_close|image_opening|image_closing
 open_time is the time the door remains open for.
 If it is 0 the door will remain open until closed.
 
@@ -25,7 +25,7 @@ attribute: T|This is a beautiful painting!~train_painting
 
 Example 2: A door that opens on collision and stays open for 4 seconds
 action: collision|door
-attribute: 4|image_open|image_close|image_opening|image_closing
+attribute: 4|closed|image_open|image_close|image_opening|image_closing
 
 Example 3: A Portal leading to the same world ("this" is a special keyword). X and Y coordinates are in grid coordinates.
 action: collision|portal

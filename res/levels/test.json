@@ -375,7 +375,7 @@
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "true",
-			"attribute": "",
+			"attribute": "0|closed|door_panel_vert_open|door_panel_vert",
 			"action": "interact|door",
 			"x": 7,
 			"y": 2
