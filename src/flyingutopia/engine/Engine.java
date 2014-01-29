@@ -33,7 +33,7 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 		this.loop = true;
 		focus = null;
 		zoom = 1.6;
-		Player p = new Player(32,32);
+		Player p = new Player(48,48);
 		this.addCollidable(p);
 		focus = p;
 		graphics = null;
