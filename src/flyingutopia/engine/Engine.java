@@ -146,7 +146,7 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 			focus.getVelocity().setX(0);
 			lastPressedKey = arg0.getKeyCode();
 			break;
-		case KeyEvent.VK_ENTER:
+		case KeyEvent.VK_ENTER: case KeyEvent.VK_E:
 			double x = focus.getX();
 			double y = focus.getY();
 			switch(focus.getVelocity().getDirection()) {
