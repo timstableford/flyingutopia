@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import flyingutopia.engine.world.Level;
+import flyingutopia.engine.world.Tile;
 
 public class Engine extends JPanel implements KeyListener, Runnable{
+	public static final int INTERACTION_DISTANCE = ImageResources.TILE_SIZE / 3;
 	private static final long serialVersionUID = -2525142042121440587L;
 	private int lastPressedKey;
 	private Level level;
@@ -143,6 +145,30 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 			focus.getVelocity().setY(focus.getSpeed());
 			focus.getVelocity().setX(0);
 			lastPressedKey = arg0.getKeyCode();
+			break;
+		case KeyEvent.VK_ENTER:
+			double x = focus.getX();
+			double y = focus.getY();
+			switch(focus.getVelocity().getDirection()) {
+			case LEFT:
+				x -= INTERACTION_DISTANCE;
+				break;
+			case RIGHT:
+				x += INTERACTION_DISTANCE;
+				break;
+			case UP:
+				y -= INTERACTION_DISTANCE;
+				break;
+			case DOWN:
+				y += INTERACTION_DISTANCE;
+				break;
+			default:
+				return;
+			}
+			Tile t = this.level.getTile((int)(x / ImageResources.TILE_SIZE), (int)(y / ImageResources.TILE_SIZE));
+			if(t != null) {
+				focus.interact(t);
+			}
 			break;
 		}
 	}

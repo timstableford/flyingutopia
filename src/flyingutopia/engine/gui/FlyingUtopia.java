@@ -16,6 +16,7 @@ import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Engine;
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.interactions.ActionParser;
 import flyingutopia.engine.world.Level;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
@@ -59,9 +60,9 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
+		ActionParser.getInstance();
 		try {
-			ClassLoader cldr = FlyingUtopia.class.getClassLoader();
-		    InputStream resStream = cldr.getResourceAsStream(TILES_FILE);
+		    InputStream resStream = new FileInputStream(new File("res/"+TILES_FILE));
 		    Scanner scan = new Scanner(resStream);
 		    String str = scan.useDelimiter("\\A").next();
 		    scan.close();

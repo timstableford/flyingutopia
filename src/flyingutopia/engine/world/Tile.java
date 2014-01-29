@@ -1,6 +1,7 @@
 package flyingutopia.engine.world;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -8,15 +9,20 @@ import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import flyingutopia.engine.ImageResource;
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.Interactable;
+import flyingutopia.engine.Sprite;
+import flyingutopia.engine.interactions.ActionParser;
+import flyingutopia.engine.interactions.WorldAction;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Tile {
-	private ImageResource resource;
-	private ImageResource background;
-	private int x,y;
-	private boolean backgroundSolid, foregroundSolid;
-	private String action;
-	private String attribute;
+public class Tile implements Interactable{
+	protected ImageResource resource;
+	protected ImageResource background;
+	protected int x,y;
+	protected boolean backgroundSolid, foregroundSolid;
+	protected String action;
+	protected String attribute;
+	protected List<WorldAction> actions;
 	public Tile(int x, int y) {
 		this.resource = null;
 		this.background = null;
@@ -26,17 +32,18 @@ public class Tile {
 		this.action = "";
 		this.x = x;
 		this.y = y;
+		this.actions = ActionParser.parseActions(action, attribute);
 	}
 	
 	public Tile(JsonNode node) {
+		this(Integer.parseInt(node.getNumberValue("x")), Integer.parseInt(node.getNumberValue("y")));
 		resource = ImageResources.getInstance().getResource(node.getStringValue("foreground"));
 		background = ImageResources.getInstance().getResource(node.getStringValue("background"));
 		backgroundSolid = Boolean.parseBoolean(node.getStringValue("backgroundsolid"));
 		foregroundSolid = Boolean.parseBoolean(node.getStringValue("foregroundsolid"));
 		attribute = node.getStringValue("attribute");
 		action = node.getStringValue("action");
-		x = Integer.parseInt(node.getNumberValue("x"));
-		y = Integer.parseInt(node.getNumberValue("y"));
+		this.actions = ActionParser.parseActions(action, attribute);
 	}
 	
 	public Tile getCopy() {
@@ -151,6 +158,27 @@ public class Tile {
 	public void setAction(String action, String attribute) {
 		this.action = action;
 		this.attribute = attribute;
+	}
+
+	@Override
+	public void onCollision(Sprite source) {
+		for(WorldAction w: actions) {
+			w.onCollision(this, source);
+		}
+	}
+
+	@Override
+	public void onSeperate(Sprite source) {
+		for(WorldAction w: actions) {
+			w.onSeperate(this, source);
+		}
+	}
+
+	@Override
+	public void onInteract(Sprite source) {
+		for(WorldAction w: actions) {
+			w.onInteract(this, source);
+		}
 	}
 
 }

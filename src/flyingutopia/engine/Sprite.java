@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import flyingutopia.engine.world.Tile;
+
 public class Sprite implements Timer{
 	protected double DEFAULT_SPEED = 70;
 	protected Vector2D velocity;
@@ -29,6 +31,10 @@ public class Sprite implements Timer{
 		double dt = (double)millis/1000;
 		this.x += velocity.getX() * dt;
 		this.y += velocity.getY() * dt;
+	}
+	
+	public void interact(Tile t) {
+		t.onInteract(this);
 	}
 	
 	public void render(Graphics g) {	
