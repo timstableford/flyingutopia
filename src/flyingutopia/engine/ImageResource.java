@@ -58,31 +58,33 @@ public class ImageResource {
 		return names;
 	}
 	public boolean loadImage() {
-		ClassLoader cldr = this.getClass().getClassLoader();
-	    java.net.URL imageURL = cldr.getResource(filename);
-	    if(imageURL == null) {
-	    	String newFilename = filename;
-	    	//Try and load it as a file
-	    	if(!(new File(filename).exists())) {
-	    		File f = new File("."); // current directory
-	    	    File[] files = f.listFiles();
-	    	    for (File file : files) {
-	    	        if (file.isDirectory()) {
-	    	        	File child = new File(file.getPath()+System.getProperty("file.separator")+filename);
-	    	            if(child.exists()) {
-	    	            	newFilename = child.getPath();
-	    	            }
-	    	        }
-	    	    }
-	    	    if(newFilename == filename) {
-	    	    	return false;
-	    	    }
-	    	}
-	    	image = new ImageIcon(newFilename);
-	    } else {
-	    	image = new ImageIcon(imageURL);
-	    }
-	    return true;
+
+		String newFilename = filename;
+		//Try and load it as a file
+		if(!(new File(filename).exists())) {
+			File f = new File("."); // current directory
+			File[] files = f.listFiles();
+			for (File file : files) {
+				if (file.isDirectory()) {
+					File child = new File(file.getPath()+System.getProperty("file.separator")+filename);
+					if(child.exists()) {
+						newFilename = child.getPath();
+					}
+				}
+			}
+			if(newFilename == filename) {
+				ClassLoader cldr = this.getClass().getClassLoader();
+				java.net.URL imageURL = cldr.getResource(filename);
+				if(imageURL == null) {
+					return false;
+				} else {
+					image = new ImageIcon(imageURL);
+				}
+			} else {
+				image = new ImageIcon(newFilename);
+			}
+		}
+		return true;
 	}
 	public String getName() {
 		return name;
