@@ -1,9 +1,10 @@
 package flyingutopia.engine.interactions;
 
 import flyingutopia.engine.Sprite;
+import flyingutopia.engine.Timer;
 import flyingutopia.engine.world.Tile;
 
-public interface WorldAction {
+public interface WorldAction extends Timer{
 	//Return the hard-coded name in the class
 	public String getName();
 	//Return a clone
@@ -18,4 +19,6 @@ public interface WorldAction {
 	public void onSeperate(Tile parent, Sprite source);
 	//On interaction by a sprite
 	public void onInteract(Tile parent, Sprite source);
+	//Called regularly
+	public void onTimer(long millis);
 }

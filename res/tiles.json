@@ -164,6 +164,11 @@
 			"name": "door_opening",
 			"filename": "tiles/door_open.gif",
 			"frames": []
+		},
+		{
+			"name": "computer",
+			"filename": "tiles/computer.gif",
+			"frames": []
 		}
 	]
 }

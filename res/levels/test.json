@@ -111,7 +111,7 @@
 			"y": 0
 		},
 		{
-			"foreground": "",
+			"foreground": "computer",
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "false",
@@ -119,16 +119,6 @@
 			"action": "",
 			"x": 2,
 			"y": 1
-		},
-		{
-			"foreground": "table_top_left",
-			"background": "house_floor",
-			"backgroundsolid": "false",
-			"foregroundsolid": "true",
-			"attribute": "",
-			"action": "",
-			"x": 2,
-			"y": 2
 		},
 		{
 			"foreground": "table_left",
@@ -138,6 +128,16 @@
 			"attribute": "",
 			"action": "",
 			"x": 2,
+			"y": 2
+		},
+		{
+			"foreground": "",
+			"background": "house_floor",
+			"backgroundsolid": "false",
+			"foregroundsolid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 2,
 			"y": 3
 		},
 		{
@@ -161,27 +161,27 @@
 			"y": 0
 		},
 		{
-			"foreground": "",
-			"background": "house_floor",
-			"backgroundsolid": "false",
-			"foregroundsolid": "false",
-			"attribute": "",
-			"action": "",
-			"x": 3,
-			"y": 1
-		},
-		{
-			"foreground": "table_top_middle",
+			"foreground": "table_top_right",
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "true",
 			"attribute": "",
 			"action": "",
 			"x": 3,
+			"y": 1
+		},
+		{
+			"foreground": "table_right",
+			"background": "house_floor",
+			"backgroundsolid": "false",
+			"foregroundsolid": "false",
+			"attribute": "",
+			"action": "",
+			"x": 3,
 			"y": 2
 		},
 		{
-			"foreground": "table_bottom_center",
+			"foreground": "",
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "false",
@@ -221,17 +221,17 @@
 			"y": 1
 		},
 		{
-			"foreground": "table_top_right",
+			"foreground": "",
 			"background": "house_floor",
 			"backgroundsolid": "false",
-			"foregroundsolid": "true",
+			"foregroundsolid": "false",
 			"attribute": "",
 			"action": "",
 			"x": 4,
 			"y": 2
 		},
 		{
-			"foreground": "table_right",
+			"foreground": "",
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "false",
