@@ -23,6 +23,26 @@ public class DoorAction implements WorldAction{
 	public String getName() {
 		return name;
 	}
+	
+	public void setDoorState(Tile parent, boolean open) {
+		this.isOpen = open;
+		parent.setForegroundSolid(!isOpen);
+		if(isOpen) {
+			parent.setResource(openRes);
+			openRes.setCurrentFrame(0);
+			parent.updateCollisionMap();
+		} else {
+			parent.setResource(closedRes);
+			closedRes.setCurrentFrame(closedRes.getImage().length - 1);
+			parent.updateCollisionMap();
+			closedRes.setCurrentFrame(0);
+		}
+	}
+	
+	@Override
+	public void onTimer(long dt) {
+		
+	}
 
 	@Override
 	public WorldAction getClone() {
@@ -59,18 +79,7 @@ public class DoorAction implements WorldAction{
 	@Override
 	public void onInteract(Tile parent, Sprite source) {
 		if(this.interactionType == InteractionTypes.INTERACT) {
-			isOpen = !isOpen;
-			parent.setForegroundSolid(!isOpen);
-			if(isOpen) {
-				parent.setResource(openRes);
-				openRes.setCurrentFrame(0);
-				parent.updateCollisionMap();
-			} else {
-				parent.setResource(closedRes);
-				closedRes.setCurrentFrame(closedRes.getImage().length - 1);
-				parent.updateCollisionMap();
-				closedRes.setCurrentFrame(0);
-			}
+			this.setDoorState(parent, !isOpen);
 		}
 	}
 
