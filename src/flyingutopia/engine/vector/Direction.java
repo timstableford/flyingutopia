@@ -1,4 +1,4 @@
-package flyingutopia.engine;
+package flyingutopia.engine.vector;
 
 public enum Direction {
 	LEFT("left"),

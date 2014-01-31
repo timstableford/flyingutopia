@@ -22,6 +22,10 @@ public class TimerManager {
 		}
 	}
 	
+	public static void reset(Timers type) {
+		TimerManager.getInstance().timers.get(type).reset();
+	}
+	
 	private TimerManager() {
 		this.timers = new HashMap<Timers, TimerList>();
 		for(Timers t: Timers.values()) {

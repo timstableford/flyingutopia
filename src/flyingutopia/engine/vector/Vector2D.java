@@ -1,4 +1,4 @@
-package flyingutopia.engine;
+package flyingutopia.engine.vector;
 
 public class Vector2D {
 	protected double x,y;

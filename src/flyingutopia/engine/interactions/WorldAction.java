@@ -18,4 +18,6 @@ public interface WorldAction{
 	public void onSeperate(Tile parent, Sprite source);
 	//On interaction by a sprite
 	public void onInteract(Tile parent, Sprite source);
+	//Sets up any timers if necessary
+	public void setupTimers(Tile parent);
 }

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.HashMap;
 
 import flyingutopia.engine.timer.Timer;
+import flyingutopia.engine.vector.Vector2D;
 import flyingutopia.engine.world.Tile;
 
 public class Sprite implements Timer, Focus{

@@ -165,6 +165,12 @@ public class Tile implements Interactable{
 					(int)(ImageResources.TILE_SIZE), null);
 		}
 	}
+	
+	public void setupActionTimers() {
+		for(WorldAction w: actions) {
+			w.setupTimers(this);
+		}
+	}
 
 	public int getX() {
 		return x;

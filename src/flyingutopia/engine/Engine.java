@@ -65,6 +65,7 @@ public class Engine extends JPanel{
 
 	public void setLevel(Level level) {
 		this.level = level;
+		this.level.setupTimers();
 		this.repaint();
 	}
 

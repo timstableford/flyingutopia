@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import flyingutopia.engine.ImageResources;
 import flyingutopia.engine.Sprite;
+import flyingutopia.engine.timer.TimerManager;
+import flyingutopia.engine.timer.Timers;
 import argo.jdom.JsonArrayNodeBuilder;
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
@@ -33,6 +35,18 @@ public class Level{
 	
 	public void removeSprite(Sprite s) {
 		this.sprites.remove(s);
+	}
+	
+	public void setupTimers() {
+		TimerManager.reset(Timers.WORLD);
+		for(int x=0; x < this.width; x++) {
+			for(int y=0; y < this.height; y++) {
+				Tile t = tiles[x][y];
+				if(t != null) {
+					t.setupActionTimers();
+				}
+			}
+		}
 	}
 	
 	private int checkInt(int max, int value) {

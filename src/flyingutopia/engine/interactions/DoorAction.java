@@ -23,6 +23,7 @@ public class DoorAction implements WorldAction{
 	public DoorAction() {
 		isOpen = false;
 		interactionType = InteractionTypes.NONE;
+		initialOpenTime = 0;
 	}
 	@Override
 	public String getName() {
@@ -73,23 +74,6 @@ public class DoorAction implements WorldAction{
 		}
 		openRes = ImageResources.getInstance().getResource(attributes[2]);
 		closedRes = ImageResources.getInstance().getResource(attributes[3]);
-
-		if(initialOpenTime > 0) {
-			lastInteraction = 0;
-			TimerManager.addTimer(Timers.WORLD, new Timer() {
-				@Override
-				public void onTimer(long millis) {
-					if(isOpen && tile != null && lastInteraction < openTime) {
-						lastInteraction += millis;
-						if(lastInteraction >= openTime) {
-							setDoorState(tile, false);
-							lastInteraction = 0;
-							openTime = initialOpenTime;
-						}
-					}
-				}
-			});
-		}
 	}
 
 	@Override
@@ -112,6 +96,25 @@ public class DoorAction implements WorldAction{
 	public void onInteract(Tile parent, Sprite source) {
 		if(this.interactionType == InteractionTypes.INTERACT) {
 			this.setDoorState(parent, !isOpen);
+		}
+	}
+	@Override
+	public void setupTimers(Tile parent) {
+		if(initialOpenTime > 0) {
+			lastInteraction = 0;
+			TimerManager.addTimer(Timers.WORLD, new Timer() {
+				@Override
+				public void onTimer(long millis) {
+					if(isOpen && tile != null && lastInteraction < openTime) {
+						lastInteraction += millis;
+						if(lastInteraction >= openTime) {
+							setDoorState(tile, false);
+							lastInteraction = 0;
+							openTime = initialOpenTime;
+						}
+					}
+				}
+			});
 		}
 	}
 
