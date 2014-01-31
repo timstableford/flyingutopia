@@ -1,4 +1,4 @@
-package flyingutopia.engine;
+package flyingutopia.engine.resources;
 
 import java.awt.image.BufferedImage;
 

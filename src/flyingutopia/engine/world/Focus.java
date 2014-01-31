@@ -1,4 +1,4 @@
-package flyingutopia.engine;
+package flyingutopia.engine.world;
 
 public interface Focus {
 	public double getX();

@@ -1,4 +1,4 @@
-package flyingutopia.engine.editor;
+package flyingutopia.gui.editor;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import flyingutopia.engine.ImageResource;
-import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.resources.ImageResource;
+import flyingutopia.engine.resources.ImageResources;
 
 public class ResourcePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 7151966261854717601L;

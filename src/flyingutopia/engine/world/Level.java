@@ -8,9 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import flyingutopia.engine.Engine;
-import flyingutopia.engine.Focus;
-import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.WorldCollidable;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.sprite.Sprite;
 import flyingutopia.engine.sprite.SpriteCommon;
 import flyingutopia.engine.sprite.SpriteManager;
@@ -72,6 +70,7 @@ public class Level{
 				engine.addCollidable((WorldCollidable)s);
 			}
 		}
+		this.generateCollisionMap();
 	}
 	
 	private int checkInt(int max, int value) {

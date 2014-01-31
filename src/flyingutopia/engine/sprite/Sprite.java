@@ -2,7 +2,7 @@ package flyingutopia.engine.sprite;
 
 import java.awt.Graphics;
 
-import flyingutopia.engine.ImageResource;
+import flyingutopia.engine.resources.ImageResource;
 import flyingutopia.engine.vector.Vector2D;
 import flyingutopia.engine.world.Tile;
 

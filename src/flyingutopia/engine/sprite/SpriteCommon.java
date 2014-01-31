@@ -4,10 +4,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
-import flyingutopia.engine.Focus;
-import flyingutopia.engine.ImageResource;
+import flyingutopia.engine.resources.ImageResource;
 import flyingutopia.engine.timer.Timer;
 import flyingutopia.engine.vector.Vector2D;
+import flyingutopia.engine.world.Focus;
 import flyingutopia.engine.world.Tile;
 
 public abstract class SpriteCommon implements Timer, Focus, Sprite{

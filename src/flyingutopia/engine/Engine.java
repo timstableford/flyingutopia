@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.timer.Timer;
 import flyingutopia.engine.timer.TimerManager;
 import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
+import flyingutopia.engine.world.WorldCollidable;
 
 public class Engine extends JPanel{
 	public static final int INTERACTION_DISTANCE = ImageResources.TILE_SIZE / 3;

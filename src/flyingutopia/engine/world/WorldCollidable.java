@@ -1,6 +1,5 @@
-package flyingutopia.engine;
+package flyingutopia.engine.world;
 
-import flyingutopia.engine.world.Level;
 
 public interface WorldCollidable {
 	public boolean checkForCollisions(Level level);

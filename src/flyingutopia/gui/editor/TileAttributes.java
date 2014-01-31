@@ -1,4 +1,4 @@
-package flyingutopia.engine.editor;
+package flyingutopia.gui.editor;
 
 import java.awt.GridLayout;
 

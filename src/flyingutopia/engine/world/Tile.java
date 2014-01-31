@@ -6,15 +6,15 @@ import java.util.List;
 
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
-import flyingutopia.engine.ImageResource;
-import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.Interactable;
 import flyingutopia.engine.interactions.ActionParser;
 import flyingutopia.engine.interactions.WorldAction;
+import flyingutopia.engine.resources.ImageResource;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.sprite.Sprite;
+import flyingutopia.engine.sprite.SpriteInteractable;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Tile implements Interactable{
+public class Tile implements SpriteInteractable{
 	protected ImageResource resource;
 	protected ImageResource background;
 	protected int x,y;

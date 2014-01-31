@@ -1,9 +1,11 @@
-package flyingutopia.engine.gui;
+package flyingutopia.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -15,9 +17,10 @@ import argo.jdom.JdomParser;
 import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Engine;
-import flyingutopia.engine.ImageResources;
 import flyingutopia.engine.interactions.ActionParser;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.world.Level;
+import flyingutopia.gui.editor.Editor;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
 	private static final long serialVersionUID = -3349917878924010552L;
@@ -26,20 +29,20 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	public static final String TILES_FILE = "tiles.json";
 	private static FlyingUtopia instance;
 	private Engine engine;
-	public FlyingUtopia() throws FileNotFoundException {
+	public FlyingUtopia() {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
+	}
+	
+	public void load() {
 		engine = new Engine();
-		InputStream is = new FileInputStream(new File("res/levels/test.json"));
-		Scanner s = new Scanner(is);
-		String json = s.useDelimiter("\\A").next();
-		s.close();
 		try {
-			JsonNode node = JDOM_PARSER.parse(json);
+			InputStream is = new FileInputStream(new File("res/levels/test.json"));
+			JsonNode node = JDOM_PARSER.parse(new InputStreamReader(is));
+			is.close();
 			engine.setLevel(new Level(node));
-			engine.getLevel().generateCollisionMap();
-		} catch (InvalidSyntaxException e) {
+		} catch (InvalidSyntaxException | IOException e) {
 			System.err.println("Could not load level");
 			System.exit(-1);
 		}
@@ -54,20 +57,40 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	@Override
 	public void onSelected(MenuOption option) {
 		if(option.getAction().equals("start")) {
+			load();
 			this.setContent(engine);
 			engine.repaint();
+		}else if(option.getAction().equals("editor")) {
+			try {
+				new Editor();
+			} catch (FileNotFoundException | InvalidSyntaxException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			this.dispose();
 		}
 	}
 	
 	public Engine getEngine() {
 		return this.engine;
 	}
-	
+
 	public static FlyingUtopia getInstance() {
 		return instance;
 	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
+
+	public static void main(String[] args) {
+		System.setProperty("awt.useSystemAAFontSettings","on");
+		System.setProperty("swing.aatext", "true");
+		if(args.length > 0 && "-editor".equals(args[0])) {
+			try {
+				new Editor();
+			} catch (FileNotFoundException | InvalidSyntaxException e) {
+				e.printStackTrace();
+				System.exit(-1);
+			}
+			return;
+		}
 		ActionParser.getInstance();
 		try {
 		    InputStream resStream = new FileInputStream(new File("res/"+TILES_FILE));

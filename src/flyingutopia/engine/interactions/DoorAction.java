@@ -2,8 +2,8 @@ package flyingutopia.engine.interactions;
 
 import org.mangosdk.spi.ProviderFor;
 
-import flyingutopia.engine.ImageResource;
-import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.resources.ImageResource;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.sprite.Sprite;
 import flyingutopia.engine.timer.Timer;
 import flyingutopia.engine.timer.TimerManager;

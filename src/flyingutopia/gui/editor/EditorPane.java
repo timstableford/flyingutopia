@@ -1,4 +1,4 @@
-package flyingutopia.engine.editor;
+package flyingutopia.gui.editor;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,8 +11,8 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import flyingutopia.engine.ImageResource;
-import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.resources.ImageResource;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.world.Level;
 import flyingutopia.engine.world.Tile;
 

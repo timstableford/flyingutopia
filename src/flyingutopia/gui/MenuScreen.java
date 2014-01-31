@@ -1,8 +1,10 @@
-package flyingutopia.engine.gui;
+package flyingutopia.gui;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.resources.ImageResources;
 
 public class MenuScreen extends JPanel implements KeyListener{
 	protected static final int INSET = 10;
@@ -41,8 +43,10 @@ public class MenuScreen extends JPanel implements KeyListener{
 	}
 	
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics gi) {
+		Graphics2D g = (Graphics2D)gi;
 		this.requestFocus();
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		

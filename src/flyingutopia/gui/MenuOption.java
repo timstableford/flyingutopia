@@ -1,4 +1,4 @@
-package flyingutopia.engine.gui;
+package flyingutopia.gui;
 
 public class MenuOption {
 	private String action, attribute, text;

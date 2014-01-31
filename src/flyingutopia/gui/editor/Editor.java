@@ -1,4 +1,4 @@
-package flyingutopia.engine.editor;
+package flyingutopia.gui.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,7 +29,7 @@ import argo.format.PrettyJsonFormatter;
 import argo.jdom.JdomParser;
 import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
-import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.world.Level;
 
 public class Editor extends JFrame implements ComponentListener, AdjustmentListener, ActionListener{
@@ -42,10 +42,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	private TileAttributes attr;
 	private Level level;
 	private JScrollPane editorScroll;
-	public Editor(String[] args) throws FileNotFoundException, InvalidSyntaxException {
-		if(args.length>0) {
-			resourceFile = args[0];
-		}
+	public Editor() throws FileNotFoundException, InvalidSyntaxException {
 		//Load resources file
 	    Scanner scan = new Scanner(new FileInputStream(new File(resourceFile)));
 	    String str = scan.useDelimiter("\\A").next();
@@ -119,18 +116,14 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 		this.add(editorScroll, BorderLayout.CENTER);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setLocation(280, 30);
+		resFrame.setLocation(30, 30);
+		attrFrame.setLocation(280, 560);
 	}
 	
 	public static String getResourceFile() {
 		return resourceFile;
-	}
-	
-	public static void main(String[] args) {
-		try {
-			new Editor(args);
-		} catch (FileNotFoundException | InvalidSyntaxException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override

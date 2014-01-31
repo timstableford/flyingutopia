@@ -6,13 +6,13 @@ import java.awt.event.KeyListener;
 import org.mangosdk.spi.ProviderFor;
 
 import flyingutopia.engine.Engine;
-import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.WorldCollidable;
-import flyingutopia.engine.gui.FlyingUtopia;
+import flyingutopia.engine.resources.ImageResources;
 import flyingutopia.engine.timer.TimerManager;
 import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
 import flyingutopia.engine.world.Tile;
+import flyingutopia.engine.world.WorldCollidable;
+import flyingutopia.gui.FlyingUtopia;
 
 @ProviderFor(Sprite.class)
 public class Player extends SpriteCommon implements WorldCollidable, KeyListener{

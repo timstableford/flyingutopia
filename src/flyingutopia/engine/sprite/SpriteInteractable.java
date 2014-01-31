@@ -1,8 +1,7 @@
-package flyingutopia.engine;
+package flyingutopia.engine.sprite;
 
-import flyingutopia.engine.sprite.Sprite;
 
-public interface Interactable {
+public interface SpriteInteractable {
 	public void onCollision(Sprite source);
 	public void onSeperate(Sprite source);
 	public void onInteract(Sprite source);

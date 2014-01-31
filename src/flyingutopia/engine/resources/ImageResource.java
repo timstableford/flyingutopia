@@ -1,4 +1,4 @@
-package flyingutopia.engine;
+package flyingutopia.engine.resources;
 
 import static argo.jdom.JsonNodeBuilders.anObjectBuilder;
 
