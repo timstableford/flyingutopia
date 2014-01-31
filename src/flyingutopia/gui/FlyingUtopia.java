@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import argo.format.JsonFormatter;
 import argo.format.PrettyJsonFormatter;
@@ -82,6 +84,12 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	public static void main(String[] args) {
 		System.setProperty("awt.useSystemAAFontSettings","on");
 		System.setProperty("swing.aatext", "true");
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e1) {
+			System.err.println("Could not set native look");
+		}
 		if(args.length > 0 && "-editor".equals(args[0])) {
 			try {
 				new Editor();

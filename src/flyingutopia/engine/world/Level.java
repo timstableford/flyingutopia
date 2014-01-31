@@ -62,12 +62,14 @@ public class Level{
 			}
 		}
 		for(Sprite s: sprites) {
-			s.setup();
-			if(s instanceof KeyListener) {
-				engine.addKeyListener((KeyListener)s);
-			}
-			if(s instanceof WorldCollidable) {
-				engine.addCollidable((WorldCollidable)s);
+			if(s != null) {
+				s.setup();
+				if(s instanceof KeyListener) {
+					engine.addKeyListener((KeyListener)s);
+				}
+				if(s instanceof WorldCollidable) {
+					engine.addCollidable((WorldCollidable)s);
+				}
 			}
 		}
 		this.generateCollisionMap();
@@ -125,7 +127,9 @@ public class Level{
 				null);
 		
 		for(Sprite s: sprites) {
-			s.render(g);
+			if(s != null) {
+				s.render(g);
+			}
 		}
 	}
 	
@@ -176,10 +180,11 @@ public class Level{
 			Sprite s = SpriteManager.getSprite(constructor);
 			this.sprites.add(s);
 		}
+		
 		String f = rootNode.getStringValue("focus");
 		if(f.length() > 0) {
 			for(Sprite s: sprites) {
-				if(s.getName().equals(f) && (s instanceof Focus)) {
+				if(s != null && s.getName().equals(f) && (s instanceof Focus)) {
 					this.setFocus((Focus)s);
 				}
 			}

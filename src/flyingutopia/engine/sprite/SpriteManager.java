@@ -30,14 +30,17 @@ public class SpriteManager {
 	
 	public SpriteManager() {
 		sprites = new HashMap<String, Sprite>();
+		System.out.println("Loading sprites...");
 		Iterator<Sprite> spriteClasses = ServiceLoader.load(Sprite.class).iterator();
 		while(spriteClasses.hasNext()) {
 			try {
 				Sprite a = spriteClasses.next();
+				System.out.println("Found "+a.getName());
 				sprites.put(a.getName(), a);
 			} catch (ServiceConfigurationError e){
 				System.err.println("Could not load a world action");
 			}
 		}
+		System.out.println("Done.");
 	}
 }
