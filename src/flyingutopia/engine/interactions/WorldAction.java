@@ -1,13 +1,13 @@
 package flyingutopia.engine.interactions;
 
-import flyingutopia.engine.Sprite;
+import flyingutopia.engine.sprite.Sprite;
 import flyingutopia.engine.world.Tile;
 
 public interface WorldAction{
 	//Return the hard-coded name in the class
 	public String getName();
 	//Return a clone
-	public WorldAction getClone();
+	public WorldAction newInstance();
 	//Parse your attribute string
 	public void parseAttributes(String[] attributes);
 	//Either collision or interact

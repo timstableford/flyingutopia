@@ -19,7 +19,6 @@ public class Engine extends JPanel{
 	private static final long serialVersionUID = -2525142042121440587L;
 	private Level level;
 	private double zoom;
-	private Focus focus;
 	private ArrayList<WorldCollidable> collidable;
 	private BufferedImage graphics;
 
@@ -28,7 +27,6 @@ public class Engine extends JPanel{
 		this.setFocusable(true);
 		//Game releated
 		collidable = new ArrayList<WorldCollidable>();
-		focus = null;
 		graphics = null;
 		zoom = DEFAULT_ZOOM;
 		setupLoops();
@@ -65,12 +63,8 @@ public class Engine extends JPanel{
 
 	public void setLevel(Level level) {
 		this.level = level;
-		this.level.setupTimers();
-		this.repaint();
-	}
-
-	public void setFocus(Focus focus) {
-		this.focus = focus;
+		this.setupLoops();
+		this.level.setup(this);
 		this.repaint();
 	}
 
@@ -93,11 +87,11 @@ public class Engine extends JPanel{
 		if(graphics != null) {
 			Graphics2D g = graphics.createGraphics();
 			int x = 0, y = 0, fx = 0, fy = 0;
-			if(focus != null) {
-				x = (int)(focus.getX() - this.getWidth()/2);
-				y = (int)(focus.getY() - this.getHeight()/2);
-				fx = (int) focus.getX();
-				fy = (int) focus.getY();
+			if(this.level != null && this.level.getFocus() != null) {
+				x = (int)(this.level.getFocus().getX() - this.getWidth()/2);
+				y = (int)(this.level.getFocus().getY() - this.getHeight()/2);
+				fx = (int) this.level.getFocus().getX();
+				fy = (int) this.level.getFocus().getY();
 			}
 			g.setColor(Color.black);
 			g.fillRect(0, 0, graphics.getWidth(), graphics.getHeight());

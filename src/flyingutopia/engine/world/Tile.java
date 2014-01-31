@@ -9,9 +9,9 @@ import argo.jdom.JsonObjectNodeBuilder;
 import flyingutopia.engine.ImageResource;
 import flyingutopia.engine.ImageResources;
 import flyingutopia.engine.Interactable;
-import flyingutopia.engine.Sprite;
 import flyingutopia.engine.interactions.ActionParser;
 import flyingutopia.engine.interactions.WorldAction;
+import flyingutopia.engine.sprite.Sprite;
 import static argo.jdom.JsonNodeBuilders.*;
 
 public class Tile implements Interactable{

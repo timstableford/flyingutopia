@@ -3,11 +3,17 @@ package flyingutopia.engine.world;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import flyingutopia.engine.Engine;
+import flyingutopia.engine.Focus;
 import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.Sprite;
+import flyingutopia.engine.WorldCollidable;
+import flyingutopia.engine.sprite.Sprite;
+import flyingutopia.engine.sprite.SpriteCommon;
+import flyingutopia.engine.sprite.SpriteManager;
 import flyingutopia.engine.timer.TimerManager;
 import flyingutopia.engine.timer.Timers;
 import argo.jdom.JsonArrayNodeBuilder;
@@ -21,15 +27,25 @@ public class Level{
 	private ArrayList<Sprite> sprites;
 	private int width;
 	private int height;
+	private String name;
 	private BufferedImage buffer;
-	public Level(int width, int height) {
+	private Focus focus;
+	public Level(String name, int width, int height) {
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
 		sprites = new ArrayList<Sprite>();
 	}
 	
-	public void addSprite(Sprite s) {
+	public Focus getFocus() {
+		return focus;
+	}
+	
+	public void setFocus(Focus focus) {
+		this.focus = focus;
+	}
+	
+	public void addSprite(SpriteCommon s) {
 		this.sprites.add(s);
 	}
 	
@@ -37,7 +53,7 @@ public class Level{
 		this.sprites.remove(s);
 	}
 	
-	public void setupTimers() {
+	public void setup(Engine engine) {
 		TimerManager.reset(Timers.WORLD);
 		for(int x=0; x < this.width; x++) {
 			for(int y=0; y < this.height; y++) {
@@ -45,6 +61,15 @@ public class Level{
 				if(t != null) {
 					t.setupActionTimers();
 				}
+			}
+		}
+		for(Sprite s: sprites) {
+			s.setup();
+			if(s instanceof KeyListener) {
+				engine.addKeyListener((KeyListener)s);
+			}
+			if(s instanceof WorldCollidable) {
+				engine.addCollidable((WorldCollidable)s);
 			}
 		}
 	}
@@ -141,13 +166,27 @@ public class Level{
 		width = Integer.parseInt(rootNode.getNumberValue("width"));
 		height = Integer.parseInt(rootNode.getNumberValue("height"));
 		tiles = new Tile[width][height];
+		name = rootNode.getStringValue("name");
 		for(JsonNode n: rootNode.getArrayNode("tiles")) {
 			Tile t = new Tile(n);
 			tiles[t.getX()][t.getY()] = t;
 		}
 		sprites = new ArrayList<Sprite>();
+		for(JsonNode n: rootNode.getArrayNode("sprites")) {
+			String constructor = n.getText();
+			Sprite s = SpriteManager.getSprite(constructor);
+			this.sprites.add(s);
+		}
+		String f = rootNode.getStringValue("focus");
+		if(f.length() > 0) {
+			for(Sprite s: sprites) {
+				if(s.getName().equals(f) && (s instanceof Focus)) {
+					this.setFocus((Focus)s);
+				}
+			}
+		}
 	}
-	
+
 	public JsonObjectNodeBuilder getJson() {
 		JsonArrayNodeBuilder arr = anArrayBuilder();
 		for(int x=0; x<this.width; x++) {
@@ -158,11 +197,22 @@ public class Level{
 				}
 			}
 		}
+		JsonArrayNodeBuilder arr2 = anArrayBuilder();
+		for(Sprite s: sprites) {
+			arr2.withElement(aStringBuilder(s.getConstructor()));
+		}
 		JsonObjectNodeBuilder builder = anObjectBuilder();
 		builder
 		.withField("tiles", arr)
+		.withField("sprites", arr2)
+		.withField("name", aStringBuilder(name))
 		.withField("width", aNumberBuilder(Integer.toString(width)))
 		.withField("height", aNumberBuilder(Integer.toString(height)));
+		String f = "";
+		if(focus != null) {
+			f = focus.getName();
+		}
+		builder.withField("focus", aStringBuilder(f));
 		return builder;
 	}
 	

@@ -16,10 +16,7 @@ import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Engine;
 import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.Player;
 import flyingutopia.engine.interactions.ActionParser;
-import flyingutopia.engine.timer.TimerManager;
-import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
@@ -46,12 +43,6 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 			System.err.println("Could not load level");
 			System.exit(-1);
 		}
-		Player p = new Player(112,80);
-		engine.addCollidable(p);
-		engine.getLevel().addSprite(p);
-		engine.setFocus(p);
-		engine.addKeyListener(p);
-		TimerManager.addTimer(Timers.MAIN, p);
 	}
 	
 	public void setContent(JPanel content) {

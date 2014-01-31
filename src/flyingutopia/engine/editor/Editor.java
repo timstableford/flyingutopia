@@ -53,7 +53,7 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 	    ImageResources.getInstance().load(JDOM_PARSER.parse(str));
 		
 		resPanel = new ResourcePanel();
-		level = new Level(30,30);
+		level = new Level("", 30,30);
 		editor = new EditorPane(resPanel, level);
 		attr = new TileAttributes(level, editor);
 		this.setSize(640, 480);
@@ -173,6 +173,9 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 			int width = 0, height = 0;
 			String str1 = null;
 			String str2 = null;
+			String name = null;
+			name = JOptionPane.showInputDialog(null, "Enter level name", 
+					"Level Name", 1);
 			do {
 				str1 = JOptionPane.showInputDialog(null, "Enter level width", 
 					"Level Width", 1);
@@ -193,8 +196,8 @@ public class Editor extends JFrame implements ComponentListener, AdjustmentListe
 					height = Integer.parseInt(str2);
 				} catch (NumberFormatException e){}
 			} while(height <= 0);
-			if(str1 != null && str2 != null) {
-				level = new Level(width, height);
+			if(str1 != null && str2 != null && name != null) {
+				level = new Level(name, width, height);
 				attr.setLevel(level);
 				editor.reload(level);
 				editorScroll.revalidate();

@@ -50,7 +50,7 @@ public class ActionParser {
 				if(sp1[i].length()>0 && sp1[i].contains(PARAMETER_SPLIT_C)) {
 					String[] sp2 = sp1[i].split(PARAMETER_SPLIT);
 					if(getInstance().actions.containsKey(sp2[1])) {
-						WorldAction w = getInstance().actions.get(sp2[1]).getClone();
+						WorldAction w = getInstance().actions.get(sp2[1]).newInstance();
 						InteractionTypes t = InteractionTypes.NONE;
 						if("collide".equals(sp2[0])) {
 							t = InteractionTypes.COLLIDE;

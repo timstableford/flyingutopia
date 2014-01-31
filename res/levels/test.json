@@ -692,5 +692,10 @@
 		}
 	],
 	"width": 12,
-	"height": 7
+	"height": 7,
+	"name": "Test Level",
+	"focus": "player",
+	"sprites": [
+		"player(player,112,80)"
+	]
 }

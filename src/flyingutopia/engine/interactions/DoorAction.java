@@ -4,7 +4,7 @@ import org.mangosdk.spi.ProviderFor;
 
 import flyingutopia.engine.ImageResource;
 import flyingutopia.engine.ImageResources;
-import flyingutopia.engine.Sprite;
+import flyingutopia.engine.sprite.Sprite;
 import flyingutopia.engine.timer.Timer;
 import flyingutopia.engine.timer.TimerManager;
 import flyingutopia.engine.timer.Timers;
@@ -57,7 +57,7 @@ public class DoorAction implements WorldAction{
 	}
 
 	@Override
-	public WorldAction getClone() {
+	public WorldAction newInstance() {
 		DoorAction d = new DoorAction();
 		
 		return d;

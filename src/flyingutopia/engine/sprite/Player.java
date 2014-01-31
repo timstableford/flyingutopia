@@ -1,23 +1,36 @@
-package flyingutopia.engine;
+package flyingutopia.engine.sprite;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import org.mangosdk.spi.ProviderFor;
+
+import flyingutopia.engine.Engine;
+import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.WorldCollidable;
 import flyingutopia.engine.gui.FlyingUtopia;
+import flyingutopia.engine.timer.TimerManager;
+import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
 import flyingutopia.engine.world.Tile;
 
-public class Player extends Sprite implements WorldCollidable, KeyListener{
+@ProviderFor(Sprite.class)
+public class Player extends SpriteCommon implements WorldCollidable, KeyListener{
+	protected static final String type = "player";
 	protected int lastPressedKey;
 	protected Tile lastCollision;
-	public Player(double x, double y) {
-		super(x, y);
+	public Player(String name, double x, double y) {
+		super(name, x, y);
 		this.setStartResource(ImageResources.getInstance().getResource("boy_front"));
 		this.resources.put("left", ImageResources.getInstance().getResource("boy_left"));
 		this.resources.put("down", ImageResources.getInstance().getResource("boy_front"));
 		this.resources.put("up", ImageResources.getInstance().getResource("boy_back"));
 		this.resources.put("right", ImageResources.getInstance().getResource("boy_right"));
 		lastCollision = null;
+	}
+	
+	public Player() {
+		this(Player.type, 0, 0);
 	}
 
 	@Override
@@ -139,8 +152,25 @@ public class Player extends Sprite implements WorldCollidable, KeyListener{
 			break;
 		}
 	}
+	
+	public String getConstructor() {
+		String parameters = name+","+Double.toString(getX())+","+Double.toString(getY());
+		return type+"("+parameters+")";
+	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
+	
+	public void setup() {
+		TimerManager.addTimer(Timers.MAIN, this);
+	}
+
+	@Override
+	public Sprite newInstance(String[] constructors) {
+		Player p = new Player(constructors[0],
+				Double.parseDouble(constructors[1]),
+				Double.parseDouble(constructors[2]));
+		return p;
+	}
 
 }
