@@ -2,53 +2,63 @@ package flyingutopia.engine.world;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.Sprite;
 import argo.jdom.JsonArrayNodeBuilder;
 import argo.jdom.JsonNode;
 import argo.jdom.JsonObjectNodeBuilder;
 import static argo.jdom.JsonNodeBuilders.*;
 
-public class Level implements ImageObserver{
+public class Level{
 	public static final int COLLISION_RESOLUTION = 2;
 	private Tile tiles[][];
+	private ArrayList<Sprite> sprites;
 	private int width;
 	private int height;
-	private double zoom = 1;
 	public Level(int width, int height) {
 		this.width = width;
 		this.height = height;
 		tiles = new Tile[width][height];
+		sprites = new ArrayList<Sprite>();
+	}
+	
+	public void addSprite(Sprite s) {
+		this.sprites.add(s);
+	}
+	
+	public void removeSprite(Sprite s) {
+		this.sprites.remove(s);
+	}
+	
+	private int checkInt(int max, int value) {
+		if(value >= max) {
+			value = max;
+		}else if(value < 0) {
+			value = 0;
+		}
+		return value;
 	}
 	
 	public void render(Graphics g, int startx, int endx, int starty, int endy) {
+		endx = checkInt(this.getWidth(), endx);
+		startx = checkInt(endx, startx);
+		endy = checkInt(this.getHeight(), endy);
+		starty = checkInt(endy, starty);
 		g.setColor(Color.black);
-		g.fillRect((int)(startx * ImageResources.TILE_SIZE * zoom), (int)(starty * ImageResources.TILE_SIZE * zoom), 
-				(int)(endx * ImageResources.TILE_SIZE * zoom), (int)(endy * ImageResources.TILE_SIZE * zoom));
+		g.fillRect((int)(startx * ImageResources.TILE_SIZE), (int)(starty * ImageResources.TILE_SIZE), 
+				(int)(endx * ImageResources.TILE_SIZE), (int)(endy * ImageResources.TILE_SIZE));
 		for(int x=startx; x<endx && x<this.width; x++) {
 			for(int y=starty; y<endy && y<this.height; y++) {
 				Tile t = tiles[x][y];
 				if(t != null) {
-        			if(t.getBackground() != null) {
-        				t.getBackground().animate();
-        				g.drawImage(t.getBackground().getImage()[t.getBackground().getCurrentFrame()].getImage(),
-        						(int)(x*ImageResources.TILE_SIZE*zoom),
-        						(int)(y*ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom), this);
-        			}
-        			if(t.getResource() != null) {
-        				t.getResource().animate();
-        				g.drawImage(t.getResource().getImage()[t.getResource().getCurrentFrame()].getImage(),
-        						(int)(x*ImageResources.TILE_SIZE*zoom),
-        						(int)(y*ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom),
-        						(int)(ImageResources.TILE_SIZE*zoom), this);
-        			}
+        			t.render(g);
         		}
 			}
+		}
+		for(Sprite s: sprites) {
+			s.render(g);
 		}
 	}
 	
@@ -92,6 +102,7 @@ public class Level implements ImageObserver{
 			Tile t = new Tile(n);
 			tiles[t.getX()][t.getY()] = t;
 		}
+		sprites = new ArrayList<Sprite>();
 	}
 	
 	public JsonObjectNodeBuilder getJson() {
@@ -135,11 +146,5 @@ public class Level implements ImageObserver{
 		if(x>=0 && x<this.width && y>=0 && y<this.height) {
 			tiles[x][y] = tile;
 		}
-	}
-
-	@Override
-	public boolean imageUpdate(Image arg0, int arg1, int arg2, int arg3,
-			int arg4, int arg5) {
-		return true;
 	}
 }

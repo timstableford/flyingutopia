@@ -3,52 +3,56 @@ package flyingutopia.engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import flyingutopia.engine.timer.Timer;
+import flyingutopia.engine.timer.TimerManager;
+import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
-import flyingutopia.engine.world.Tile;
 
-public class Engine extends JPanel implements KeyListener, Runnable{
+public class Engine extends JPanel{
 	public static final int INTERACTION_DISTANCE = ImageResources.TILE_SIZE / 3;
+	public static final double DEFAULT_ZOOM = 4;
 	private static final long serialVersionUID = -2525142042121440587L;
-	private int lastPressedKey;
 	private Level level;
 	private double zoom;
-	private Sprite focus;
-	private ArrayList<Timer> timers;
+	private Focus focus;
 	private ArrayList<WorldCollidable> collidable;
-	private long lastTick;
-	private boolean loop;
 	private BufferedImage graphics;
 
 	public Engine() {
-		timers = new ArrayList<Timer>();
-		collidable = new ArrayList<WorldCollidable>();
-		lastTick = System.currentTimeMillis();
-		this.loop = true;
-		focus = null;
-		zoom = 1.6;
-		Player p = new Player(48,48);
-		this.addCollidable(p);
-		focus = p;
-		graphics = null;
-		this.addTimer(focus);
+		//Jpanel related
 		this.setFocusable(true);
-		this.addKeyListener(this);
-		this.setFocus(focus);
+		//Game releated
+		collidable = new ArrayList<WorldCollidable>();
+		focus = null;
+		graphics = null;
+		zoom = DEFAULT_ZOOM;
+		setupLoops();
 	}
-
-	public void addTimer(Timer timer) {
-		this.timers.add(timer);
-	}
-
-	public void removeTimer(Timer timer) {
-		this.timers.remove(timer);
+	
+	private void setupLoops() {
+		TimerManager.reset();
+		
+		TimerManager.addTimer(Timers.MAIN, new Timer(){
+			public void onTimer(long millis) {
+				for(WorldCollidable w: collidable) {
+					if(level != null) {
+						w.checkForCollisions(level);
+					}
+				}
+			}
+		});
+		
+		TimerManager.addTimer(Timers.MAIN, new Timer(){
+			public void onTimer(long millis) {
+				paintBuffer();
+				repaint();
+			}
+		});
 	}
 	
 	public void addCollidable(WorldCollidable w) {
@@ -64,7 +68,7 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 		this.repaint();
 	}
 
-	public void setFocus(Sprite focus) {
+	public void setFocus(Focus focus) {
 		this.focus = focus;
 		this.repaint();
 	}
@@ -77,8 +81,8 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 		}
 		if(graphics != null) {
 			int sx = 0, sy = 0;
-			sx = (int)(this.getWidth()/(1/zoom + 2));
-			sy = (int)(this.getHeight()/(1/zoom + 2));
+			sx = (int) (this.getWidth()/2 - (this.getWidth()/(zoom * 2)));
+			sy = (int) (this.getHeight()/2 - (this.getHeight()/(zoom * 2)));
 			g.drawImage(graphics, 0, 0, this.getWidth(), this.getHeight(),
 					sx, sy, this.getWidth() - sx, this.getHeight() - sy, null);
 		}
@@ -87,10 +91,12 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 	public void paintBuffer() {
 		if(graphics != null) {
 			Graphics2D g = graphics.createGraphics();
-			int x = 0, y = 0;
+			int x = 0, y = 0, fx = 0, fy = 0;
 			if(focus != null) {
 				x = (int)(focus.getX() - this.getWidth()/2);
 				y = (int)(focus.getY() - this.getHeight()/2);
+				fx = (int) focus.getX();
+				fy = (int) focus.getY();
 			}
 			g.setColor(Color.black);
 			g.fillRect(0, 0, graphics.getWidth(), graphics.getHeight());
@@ -98,117 +104,34 @@ public class Engine extends JPanel implements KeyListener, Runnable{
 				BufferedImage buffer = new BufferedImage(level.getWidth() * ImageResources.TILE_SIZE,
 						level.getHeight() * ImageResources.TILE_SIZE, BufferedImage.TYPE_4BYTE_ABGR);
 				Graphics bufferGraphics = buffer.getGraphics();
-				this.level.render(bufferGraphics);
-				if(focus != null) {
-					focus.render(bufferGraphics);
-				}
-
-				g.drawImage(buffer, 0, 0, this.getWidth(), this.getHeight(),
-						x, y, (int)((x + this.getWidth())), (int)((y + this.getHeight())), null);
 				
-				if(this.level.isColliding(focus.getX() - focus.getWidth()/2, focus.getY()) ||
-						this.level.isColliding(focus.getX() + focus.getWidth()/2, focus.getY()) ||
-						this.level.isColliding(focus.getX(), focus.getY() + focus.getHeight()/2) ||
-						this.level.isColliding(focus.getX(), focus.getY())) {
-					g.setColor(Color.red);
-				} else {
-					g.setColor(Color.green);
+				int dx = 0, dy = 0;
+				if(x < 0) {
+					dx = Math.abs(x);
+					x = 0;
 				}
-				g.fillRect(305, 220, 10, 10);
+				if(y < 0) {
+					dy = Math.abs(y);
+					y = 0;
+				}
+				int num_tiles_x = this.getWidth() / (ImageResources.TILE_SIZE * 4);
+				int num_tiles_y = this.getHeight() / (ImageResources.TILE_SIZE * 4);
+				int player_x = fx / ImageResources.TILE_SIZE;
+				int player_y = fy / ImageResources.TILE_SIZE;
+				
+				this.level.render(bufferGraphics, 
+						player_x - num_tiles_x/2 - 1,
+						player_x + num_tiles_x/2 + 2,
+						player_y - num_tiles_y/2 - 1,
+						player_y + num_tiles_y/2 + 2);
+				g.drawImage(buffer, dx, dy, this.getWidth() + dx, this.getHeight() + dy,
+						x, y, (int)((x + this.getWidth())), (int)((y + this.getHeight())), null);
 			}
 		}
 	}
 	
 	public Level getLevel() {
 		return this.level;
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		switch(arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT:
-			focus.getVelocity().setX(-focus.getSpeed());
-			focus.getVelocity().setY(0);
-			lastPressedKey = arg0.getKeyCode();
-			break;
-		case KeyEvent.VK_RIGHT:
-			focus.getVelocity().setX(focus.getSpeed());
-			focus.getVelocity().setY(0);
-			lastPressedKey = arg0.getKeyCode();
-			break;
-		case KeyEvent.VK_UP:
-			focus.getVelocity().setY(-focus.getSpeed());
-			focus.getVelocity().setX(0);
-			lastPressedKey = arg0.getKeyCode();
-			break;
-		case KeyEvent.VK_DOWN:
-			focus.getVelocity().setY(focus.getSpeed());
-			focus.getVelocity().setX(0);
-			lastPressedKey = arg0.getKeyCode();
-			break;
-		case KeyEvent.VK_ENTER: case KeyEvent.VK_E:
-			double x = focus.getX();
-			double y = focus.getY();
-			switch(focus.getVelocity().getDirection()) {
-			case LEFT:
-				x -= INTERACTION_DISTANCE;
-				break;
-			case RIGHT:
-				x += INTERACTION_DISTANCE;
-				break;
-			case UP:
-				y -= INTERACTION_DISTANCE;
-				break;
-			case DOWN:
-				y += INTERACTION_DISTANCE;
-				break;
-			default:
-				return;
-			}
-			Tile t = this.level.getTile((int)(x / ImageResources.TILE_SIZE), (int)(y / ImageResources.TILE_SIZE));
-			if(t != null) {
-				focus.interact(t);
-			}
-			break;
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		switch(arg0.getKeyCode()) {
-		case KeyEvent.VK_LEFT: case KeyEvent.VK_RIGHT: case KeyEvent.VK_UP: case KeyEvent.VK_DOWN:
-			if(lastPressedKey == arg0.getKeyCode()) {
-				focus.getVelocity().setX(0);
-				focus.getVelocity().setY(0);
-			}
-			break;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {}
-
-	@Override
-	public void run() {
-		while(loop) {
-			long dt = System.currentTimeMillis() - lastTick;
-			for(WorldCollidable w: collidable) {
-				if(this.level != null) {
-					w.checkForCollisions(this.level);
-				}
-			}
-			for(Timer t: timers) {
-				t.onTimer(dt);
-			}
-			lastTick = System.currentTimeMillis();
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-				//Thread was not sleepy, doesn't matter
-			}
-			this.paintBuffer();
-			this.repaint();
-		}
 	}
 
 }

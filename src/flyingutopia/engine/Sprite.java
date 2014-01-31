@@ -4,9 +4,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import flyingutopia.engine.timer.Timer;
 import flyingutopia.engine.world.Tile;
 
-public class Sprite implements Timer{
+public class Sprite implements Timer, Focus{
 	protected double DEFAULT_SPEED = 70;
 	protected Vector2D velocity;
 	protected double x, y;

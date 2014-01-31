@@ -1,5 +1,6 @@
 package flyingutopia.engine.world;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -127,6 +128,25 @@ public class Tile implements Interactable{
 		.withField("x", aNumberBuilder(Integer.toString(x)))
 		.withField("y", aNumberBuilder(Integer.toString(y)));
 		return builder;
+	}
+	
+	public void render(Graphics g) {
+		if(this.getBackground() != null) {
+			this.getBackground().animate();
+			g.drawImage(this.getBackground().getImage()[this.getBackground().getCurrentFrame()].getImage(),
+					(int)(x*ImageResources.TILE_SIZE),
+					(int)(y*ImageResources.TILE_SIZE),
+					(int)(ImageResources.TILE_SIZE),
+					(int)(ImageResources.TILE_SIZE), null);
+		}
+		if(this.getResource() != null) {
+			this.getResource().animate();
+			g.drawImage(this.getResource().getImage()[this.getResource().getCurrentFrame()].getImage(),
+					(int)(x*ImageResources.TILE_SIZE),
+					(int)(y*ImageResources.TILE_SIZE),
+					(int)(ImageResources.TILE_SIZE),
+					(int)(ImageResources.TILE_SIZE), null);
+		}
 	}
 
 	public int getX() {

@@ -16,7 +16,10 @@ import argo.jdom.JsonNode;
 import argo.saj.InvalidSyntaxException;
 import flyingutopia.engine.Engine;
 import flyingutopia.engine.ImageResources;
+import flyingutopia.engine.Player;
 import flyingutopia.engine.interactions.ActionParser;
+import flyingutopia.engine.timer.TimerManager;
+import flyingutopia.engine.timer.Timers;
 import flyingutopia.engine.world.Level;
 
 public class FlyingUtopia extends JFrame implements SelectionListener{
@@ -24,6 +27,7 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 	public static final JsonFormatter JSON_FORMATTER = new PrettyJsonFormatter();
 	public static final JdomParser JDOM_PARSER = new JdomParser();
 	public static final String TILES_FILE = "tiles.json";
+	private static FlyingUtopia instance;
 	private Engine engine;
 	public FlyingUtopia() throws FileNotFoundException {
 		this.setSize(800, 600);
@@ -42,6 +46,12 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 			System.err.println("Could not load level");
 			System.exit(-1);
 		}
+		Player p = new Player(48,48);
+		engine.addCollidable(p);
+		engine.getLevel().addSprite(p);
+		engine.setFocus(p);
+		engine.addKeyListener(p);
+		TimerManager.addTimer(Timers.MAIN, p);
 	}
 	
 	public void setContent(JPanel content) {
@@ -55,8 +65,15 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 		if(option.getAction().equals("start")) {
 			this.setContent(engine);
 			engine.repaint();
-			(new Thread(engine)).start();
 		}
+	}
+	
+	public Engine getEngine() {
+		return this.engine;
+	}
+	
+	public static FlyingUtopia getInstance() {
+		return instance;
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
@@ -71,10 +88,10 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 			System.err.println("Could not generate resources");
 			System.exit(-1);
 		}
-		FlyingUtopia fu = new FlyingUtopia();
+		instance = new FlyingUtopia();
 		Menu m = new Menu();
-		m.setListener(fu);
-		fu.setContent(m);
+		m.setListener(instance);
+		instance.setContent(m);
 	}
 
 }

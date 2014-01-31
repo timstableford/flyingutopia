@@ -375,8 +375,8 @@
 			"background": "house_floor",
 			"backgroundsolid": "false",
 			"foregroundsolid": "true",
-			"attribute": "0|closed|door_opening|door_closing|door",
-			"action": "interact|door",
+			"attribute": "3000|closed|door_opening|door_closing~3000|closed|door_opening|door_closing",
+			"action": "interact|door~collide|door",
 			"x": 7,
 			"y": 2
 		},
