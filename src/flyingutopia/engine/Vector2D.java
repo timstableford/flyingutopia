@@ -19,9 +19,11 @@ public class Vector2D {
 	}
 	public void setX(double x) {
 		this.x = x;
+		getDirection();
 	}
 	public void setY(double y) {
 		this.y = y;
+		getDirection();
 	}
 	public double getSpeed() {
 		if(this.x != 0 || this.y != 0) {
