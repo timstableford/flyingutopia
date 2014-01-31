@@ -30,6 +30,7 @@ public class Menu extends MenuScreen{
 				this.reset();
 				if(o.getAttribute().equals("main")) {
 					this.options = mainMenu;
+					this.select(0);
 				}else if(o.getAttribute().equals("load")) {
 					this.options = loadMenu;
 					this.select(0);
