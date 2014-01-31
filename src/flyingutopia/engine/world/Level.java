@@ -2,6 +2,8 @@ package flyingutopia.engine.world;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import flyingutopia.engine.ImageResources;
@@ -17,6 +19,7 @@ public class Level{
 	private ArrayList<Sprite> sprites;
 	private int width;
 	private int height;
+	private BufferedImage buffer;
 	public Level(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -42,21 +45,47 @@ public class Level{
 	}
 	
 	public void render(Graphics g, int startx, int endx, int starty, int endy) {
+		boolean force = false;
+		if(buffer == null) {
+			buffer = new BufferedImage(this.getWidth() * ImageResources.TILE_SIZE,
+					this.getHeight() * ImageResources.TILE_SIZE,
+					BufferedImage.TYPE_4BYTE_ABGR);
+			force = true;
+		}
+		Graphics2D bufferG = buffer.createGraphics();
+		
 		endx = checkInt(this.getWidth(), endx);
 		startx = checkInt(endx, startx);
 		endy = checkInt(this.getHeight(), endy);
 		starty = checkInt(endy, starty);
-		g.setColor(Color.black);
-		g.fillRect((int)(startx * ImageResources.TILE_SIZE), (int)(starty * ImageResources.TILE_SIZE), 
-				(int)(endx * ImageResources.TILE_SIZE), (int)(endy * ImageResources.TILE_SIZE));
+
+		if(force) {
+			bufferG.setColor(Color.black);
+			bufferG.fillRect((int)(startx * ImageResources.TILE_SIZE), (int)(starty * ImageResources.TILE_SIZE), 
+					(int)(endx * ImageResources.TILE_SIZE), (int)(endy * ImageResources.TILE_SIZE));
+		}
 		for(int x=startx; x<endx && x<this.width; x++) {
 			for(int y=starty; y<endy && y<this.height; y++) {
 				Tile t = tiles[x][y];
 				if(t != null) {
-        			t.render(g);
-        		}
+					if(t.renderRequired() || force) {
+						t.render(bufferG);
+					}
+				}
 			}
 		}
+		
+		g.drawImage(buffer,
+				(int)(startx * ImageResources.TILE_SIZE),
+				(int)(starty * ImageResources.TILE_SIZE), 
+				(int)(endx * ImageResources.TILE_SIZE),
+				(int)(endy * ImageResources.TILE_SIZE),
+				(int)(startx * ImageResources.TILE_SIZE),
+				(int)(starty * ImageResources.TILE_SIZE), 
+				(int)(endx * ImageResources.TILE_SIZE),
+				(int)(endy * ImageResources.TILE_SIZE),
+				null);
+		
 		for(Sprite s: sprites) {
 			s.render(g);
 		}

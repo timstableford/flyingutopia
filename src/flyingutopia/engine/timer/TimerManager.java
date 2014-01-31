@@ -2,6 +2,7 @@ package flyingutopia.engine.timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TimerManager {
 	private static TimerManager instance;
@@ -53,7 +54,7 @@ public class TimerManager {
 			this.loop = false;
 		}
 		
-		public void addTimer(Timer t) {
+		public synchronized void addTimer(Timer t) {
 			if(!this.timers.contains(t)) {
 				this.timers.add(t);
 				if(!loop && this.timers.size() > 0) {
@@ -62,8 +63,16 @@ public class TimerManager {
 			}
 		}
 		
-		public void reset() {
+		public synchronized List<Timer> getTimers() {
+			return timers;
+		}
+		
+		public synchronized void reset() {
 			this.timers = new ArrayList<Timer>();
+		}
+		
+		public synchronized Timer getTimer(int index) {
+			return this.timers.get(index);
 		}
 		
 		public Timers getType() {
@@ -85,8 +94,8 @@ public class TimerManager {
 		public void run() {
 			while(loop) {
 				long dt = System.currentTimeMillis() - lastTick;
-				for(Timer t: timers) {
-					t.onTimer(dt);
+				for(int i=0; i<this.getTimers().size(); i++) {
+					this.getTimer(i).onTimer(dt);
 				}
 				lastTick = System.currentTimeMillis();
 				try {

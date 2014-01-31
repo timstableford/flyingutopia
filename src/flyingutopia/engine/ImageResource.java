@@ -67,12 +67,15 @@ public class ImageResource {
 		this.names = new ArrayList<String>();
 		names.add(name);
 	}
-	
-	public void animate() {
-		if((System.currentTimeMillis() - lastUpdate) > imageFrames[currentFrame].getDelay()) {
-			lastUpdate = System.currentTimeMillis();
-			incrementFrame();
+
+	public boolean animate() {
+		if(getImage().length > 1) {
+			if((System.currentTimeMillis() - lastUpdate) > imageFrames[currentFrame].getDelay()) {
+				lastUpdate = System.currentTimeMillis();
+				return incrementFrame();
+			}
 		}
+		return false;
 	}
 	
 	public int getCurrentFrame() {
@@ -86,14 +89,16 @@ public class ImageResource {
 		currentFrame = frame;
 	}
 	
-	public void incrementFrame() {
+	public boolean incrementFrame() {
 		currentFrame++;
 		if(currentFrame >= imageFrames.length) {
 			currentFrame = imageFrames.length - 1;
 			if(getImage()[currentFrame].getDisposal().equals("None")) {
 				currentFrame = 0;
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	public ImageResource(String name, String filename) {

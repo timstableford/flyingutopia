@@ -23,6 +23,7 @@ public class Tile implements Interactable{
 	protected String attribute;
 	protected List<WorldAction> actions;
 	protected boolean collisionMap[][];
+	protected boolean renderRequired;
 	public Tile(int x, int y) {
 		this.resource = null;
 		this.background = null;
@@ -33,6 +34,7 @@ public class Tile implements Interactable{
 		this.x = x;
 		this.y = y;
 		this.actions = ActionParser.parseActions(action, attribute);
+		this.renderRequired = true;
 	}
 
 	public Tile(JsonNode node) {
@@ -54,6 +56,7 @@ public class Tile implements Interactable{
 		t.backgroundSolid = backgroundSolid;
 		t.attribute = attribute;
 		t.action = action;
+		t.renderRequired = true;
 		return t;
 	}
 
@@ -62,12 +65,14 @@ public class Tile implements Interactable{
 	}
 	public void setBackground(ImageResource bg) {
 		this.background = bg;
+		this.renderRequired = true;
 	}
 	public ImageResource getResource() {
 		return resource;
 	}
 	public void setResource(ImageResource resource) {
 		this.resource = resource;
+		this.renderRequired = true;
 	}
 
 	public boolean [][] getCollisionMap(int COLLISION_RESOLUTION) {
@@ -130,9 +135,22 @@ public class Tile implements Interactable{
 		return builder;
 	}
 	
+	public boolean renderRequired() {
+		boolean render = renderRequired;
+		if(renderRequired) {
+			renderRequired = false;
+		}
+		if(this.getBackground() != null && this.getBackground().animate()) {
+			render = true;
+		}
+		if(this.getResource() != null && this.getResource().animate()) {
+			render = true;
+		}
+		return render;
+	}
+	
 	public void render(Graphics g) {
 		if(this.getBackground() != null) {
-			this.getBackground().animate();
 			g.drawImage(this.getBackground().getImage()[this.getBackground().getCurrentFrame()].getImage(),
 					(int)(x*ImageResources.TILE_SIZE),
 					(int)(y*ImageResources.TILE_SIZE),
@@ -140,7 +158,6 @@ public class Tile implements Interactable{
 					(int)(ImageResources.TILE_SIZE), null);
 		}
 		if(this.getResource() != null) {
-			this.getResource().animate();
 			g.drawImage(this.getResource().getImage()[this.getResource().getCurrentFrame()].getImage(),
 					(int)(x*ImageResources.TILE_SIZE),
 					(int)(y*ImageResources.TILE_SIZE),

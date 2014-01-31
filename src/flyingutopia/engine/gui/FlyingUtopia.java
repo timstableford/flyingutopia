@@ -46,7 +46,7 @@ public class FlyingUtopia extends JFrame implements SelectionListener{
 			System.err.println("Could not load level");
 			System.exit(-1);
 		}
-		Player p = new Player(48,48);
+		Player p = new Player(112,80);
 		engine.addCollidable(p);
 		engine.getLevel().addSprite(p);
 		engine.setFocus(p);
